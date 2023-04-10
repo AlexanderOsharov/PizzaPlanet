@@ -8,13 +8,7 @@
         android:id="@+id/pizza_venue_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/mapview" />
-
-    <com.yandex.mapkit.MapView
-        android:id="@+id/mapview"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_alignParentBottom="true"
-        tools:ignore="MissingClass" />
+        android:layout_above="@+id/mapview"
+        tools:ignore="UnknownId" />
 
 </RelativeLayout>

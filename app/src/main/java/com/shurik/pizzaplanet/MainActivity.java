@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.shurik.pizzaplanet.fragments.GeolocationFragment;
 import com.shurik.pizzaplanet.fragments.SupplierFragment;
 import com.shurik.pizzaplanet.fragments.CustomerFragment;
 import com.shurik.pizzaplanet.fragments.BasketFragment;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.nav_customer_fragment:
-                    selectedFragment = new CustomerFragment();
+                    selectedFragment = new GeolocationFragment();
                     break;
                 case R.id.nav_supplier_fragment:
                     selectedFragment = new SupplierFragment();

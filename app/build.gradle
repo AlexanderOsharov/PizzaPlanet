@@ -34,12 +34,16 @@ android {
 }
 
 dependencies {
-    // searchPizzaVenues
+    // For API
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 
     // Glide для отображения изображений
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
+    // Geolocation
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'

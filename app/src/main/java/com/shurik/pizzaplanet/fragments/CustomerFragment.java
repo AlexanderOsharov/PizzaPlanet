@@ -1,6 +1,9 @@
 package com.shurik.pizzaplanet.fragments;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.viewmodel.CreationExtras;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.shurik.pizzaplanet.Constants;
 import com.shurik.pizzaplanet.R;
@@ -27,7 +31,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class CustomerFragment extends Fragment {
+public class CustomerFragment extends Fragment implements PizzaAdapter.OnItemClickListener {
 
     private FragmentCustomerBinding binding;
     private RecyclerView recyclerView;
@@ -41,14 +45,22 @@ public class CustomerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCustomerBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
+        layoutManager = new LinearLayoutManager(getActivity());
         recyclerView = binding.pizzaVenueRecyclerview;
         recyclerView.setLayoutManager(layoutManager);
 
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         try {
             // Вызываем метод searchPizzaVenues для получения списка пиццерий
             JSONObject pizzaVenues = searchPizzaVenues("55.790199", "37.531649",
-                    Constants.FOURSQUARE_ClientId, Constants.FOURSQUARE_ClientId);
+                    Constants.FOURSQUARE_ClientId, Constants.FOURSQUARE_ClientSecret);
 
             // Обработка JSON-объекта и извлечение информации о пиццериях
             JSONObject response = pizzaVenues.getJSONObject("response");
@@ -60,7 +72,7 @@ public class CustomerFragment extends Fragment {
                 JSONObject venue = venues.getJSONObject(i);
                 String venueId = venue.getString("id");
                 String name = venue.getString("name");
-                JSONObject venueDetails = getVenueDetails(venueId, Constants.FOURSQUARE_ClientId, Constants.FOURSQUARE_ClientId);
+                JSONObject venueDetails = getVenueDetails(venueId, Constants.FOURSQUARE_ClientId, Constants.FOURSQUARE_ClientSecret);
                 String address = venue.getJSONObject("location").getString("address");
 
                 // Получить информацию о пицце и изображении из API
@@ -85,11 +97,10 @@ public class CustomerFragment extends Fragment {
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();
+            //handle connection error
+            Toast.makeText(getContext(), "Ошибка подключения к серверу. Проверьте соединение и повторите запрос.", Toast.LENGTH_SHORT).show();
         }
 
-
-
-        return binding.getRoot();
     }
 
     private void updateUIWithPizzaVenues(List<PizzaVenue> pizzaVenuesList) {
@@ -97,6 +108,7 @@ public class CustomerFragment extends Fragment {
         // Чтобы работать с картами Yandex, установите и импортируйте нужные зависимости (см. https://yandex.ru/dev/maps/mapkit/doc/android-ref/full/index.html)
         // Интегрируйте карту Yandex с приложением, используя информацию из списка pizzaVenuesList для отображения маркеров
         pizzaAdapter = new PizzaAdapter(getContext(), pizzaVenuesList);
+        pizzaAdapter.setOnItemClickListener((PizzaAdapter.OnItemClickListener) getContext());
         recyclerView.setAdapter(pizzaAdapter);
     }
 
@@ -112,6 +124,11 @@ public class CustomerFragment extends Fragment {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(url).build();
         Response response = client.newCall(request).execute();
+
+        if (!response.isSuccessful()) {
+            throw new IOException("Ошибка сервера: " + response);
+        }
+
         String json = response.body().string();
 
         return new JSONObject(json);
@@ -132,4 +149,15 @@ public class CustomerFragment extends Fragment {
         return new JSONObject(json);
     }
 
+    @Override
+    public void onItemClick(PizzaVenue pizzaVenue) {
+        MapDialogFragment dialogFragment = new MapDialogFragment();
+        dialogFragment.show(getFragmentManager(), "dialog");
+    }
+
+    @NonNull
+    @Override
+    public CreationExtras getDefaultViewModelCreationExtras() {
+        return super.getDefaultViewModelCreationExtras();
+    }
 }

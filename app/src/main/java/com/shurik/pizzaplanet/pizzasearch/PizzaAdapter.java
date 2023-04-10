@@ -20,6 +20,9 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
 
     private List<PizzaVenue> mPizzaVenues;
     private Context mContext;
+    private OnItemClickListener mListener;
+
+
 
     public PizzaAdapter(Context context, List<PizzaVenue> pizzaVenues) {
         mContext = context;
@@ -39,10 +42,19 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
 
         holder.pizzaVenueName.setText(pizzaVenue.getName());
         holder.pizzaVenueAddress.setText(pizzaVenue.getAddress());
-        // Assuming you have a method to load images into the ImageView, e.g., using Glide or Picasso
         loadImageIntoImageView(mContext, pizzaVenue.getImageUrl(), holder.pizzaImage);
         holder.pizzaName.setText(pizzaVenue.getPizzaName());
         holder.pizzaComposition.setText(pizzaVenue.getPizzaComposition());
+
+        // Действие при нажатии
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mListener != null) {
+                    mListener.onItemClick(pizzaVenue);
+                }
+            }
+        });
     }
 
     @Override
@@ -73,4 +85,13 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
                 .centerCrop()
                 .into(imageView);
     }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(PizzaVenue pizzaVenue);
+    }
+
 }

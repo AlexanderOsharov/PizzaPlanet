@@ -1,5 +1,6 @@
 //package com.shurik.pizzaplanet.adapters;
 //
+//import android.annotation.SuppressLint;
 //import android.content.Context;
 //import android.view.LayoutInflater;
 //import android.view.View;
@@ -19,39 +20,31 @@
 //
 //    // изобржения
 //    int[] images = {
-//            R.drawable.hi,
-//            R.drawable.quest,
-//            R.drawable.rating,
-//            R.drawable.friends,
-//            R.drawable.award
+//            R.drawable.,
+//            R.drawable.,
+//            R.drawable.,
+//            R.drawable.,
+//            R.drawable.
 //    };
 //
 //    // заголовки
 //    int[] headings = {
-//            R.string.first_slide_heading,
-//            R.string.second_slide_heading,
-//            R.string.third_slide_heading,
-//            R.string.fourth_slide_heading,
-//            R.string.fifth_slide_heading
+//            R.string.,
+//            R.string.,
+//            R.string.,
+//            R.string.,
+//            R.string.
 //    };
 //
 //    // описание
 //    int[] descriptions = {
-//            R.string.first_slide_description,
-//            R.string.second_slide_description,
-//            R.string.third_slide_description,
-//            R.string.fourth_slide_description,
-//            R.string.fifth_slide_description
+//            R.string.,
+//            R.string.,
+//            R.string.,
+//            R.string.,
+//            R.string.
 //    };
 //
-//    // сводки
-//    int[] swards = {
-//            R.string.swards_first,
-//            R.string.swards_second,
-//            R.string.swards_third,
-//            R.string.swards_fourth,
-//            R.string.swards_fifth
-//    };
 //
 //    public ViewPagerAdapter(Context context) {
 //        this.context = context;
@@ -64,7 +57,7 @@
 //
 //    @Override
 //    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-//
+//        return view == (RelativeLayout) object;
 //    }
 //
 //    @NonNull
@@ -74,16 +67,14 @@
 //
 //        View view = inflater.inflate(R.layout.slider_layout, container, false);
 //
-//        ImageView slideTitleImage = (ImageView) view.findViewById(R.id.titleImage);
+//        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) ImageView slideTitleImage = (ImageView) view.findViewById(R.id.titleImage);
 //
 //        TextView slideHeading = (TextView) view.findViewById(R.id.textTitle);
 //        TextView slideDescription = (TextView) view.findViewById(R.id.textDescription);
-//        TextView sward = (TextView) view.findViewById(R.id.sward);
 //
 //        slideTitleImage.setImageResource(images[position]);
 //        slideHeading.setText(headings[position]);
 //        slideDescription.setText(descriptions[position]);
-//        sward.setText(swards[position]);
 //        container.addView(view);
 //        return view;
 //    }
@@ -93,4 +84,4 @@
 //        container.removeView((RelativeLayout) object);
 //    }
 //}
-//
+

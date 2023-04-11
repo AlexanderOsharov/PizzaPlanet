@@ -6,4 +6,6 @@
     <string name="supplier">Доставщик</string>
     <string name="basket">Корзина</string>
     <string name="settings">Настройки</string>
+
+    <string name="profile">Профиль</string>
 </resources>

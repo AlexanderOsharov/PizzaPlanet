@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    // основные цвета приложения
+    <color name="yel_oran">#FFCD4B</color>
+
+    // цвет текста
+    <color name="colorText">#3C291A</color>
+    <color name="colorEdit">#EEECEC</color>
 </resources>

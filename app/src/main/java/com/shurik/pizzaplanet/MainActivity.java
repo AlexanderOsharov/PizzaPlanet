@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.shurik.pizzaplanet.fragments.SupplierFragment;
 import com.shurik.pizzaplanet.fragments.CustomerFragment;
 import com.shurik.pizzaplanet.fragments.BasketFragment;
+import com.shurik.pizzaplanet.fragments.UserFragment;
 import com.shurik.pizzaplanet.fragments.UserSettingsFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private FragmentManager fragmentManager = getSupportFragmentManager();
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.nav_user_settings_fragment:
                     selectedFragment = new UserSettingsFragment();
+                    break;
+                case R.id.user_fragment:
+                    selectedFragment = new UserFragment();
                     break;
                 default:
                     selectedFragment = new SupplierFragment();

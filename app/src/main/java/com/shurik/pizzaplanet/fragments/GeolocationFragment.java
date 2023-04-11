@@ -125,11 +125,8 @@ public class GeolocationFragment extends Fragment {
     private void searchForPizzaPlaces(Location location) {
         OkHttpClient client = new OkHttpClient();
 
-        final String FOURSQUARE_API = "https://api.foursquare.com/v2/venues/search/";
-        final String CLIENT_ID = Constants.FOURSQUARE_ClientId;
-        final String CLIENT_SECRET = Constants.FOURSQUARE_ClientSecret;
-        final String VERSION = "20220212"; // Версия API. Можно использовать текущую дату в формате ГГГГММДД
-        final String CATEGORY_PIZZA_ID = "4bf58dd8d48988d1ca941735"; // ID категории для пиццы в Foursquare.
+        final String FOURSQUARE_API = "https://api.foursquare.com/v3/places/search";
+        final String CLIENT_API = Constants.FOURSQUARE_API;
 
         HttpUrl url = HttpUrl.parse(FOURSQUARE_API);
         if (url == null) {
@@ -140,14 +137,15 @@ public class GeolocationFragment extends Fragment {
 
         // Собираем строку запроса
         HttpUrl.Builder urlBuilder = url.newBuilder();
-        urlBuilder.addQueryParameter("client_id", CLIENT_ID);
-        urlBuilder.addQueryParameter("client_secret", CLIENT_SECRET);
-        urlBuilder.addQueryParameter("v", VERSION);
+        urlBuilder.addQueryParameter("query", "coffee");
         urlBuilder.addQueryParameter("ll", location.getLatitude() + "," + location.getLongitude());
-        urlBuilder.addQueryParameter("categoryId", CATEGORY_PIZZA_ID);
+        urlBuilder.addQueryParameter("open_now", "true");
+        urlBuilder.addQueryParameter("sort", "DISTANCE");
 
         Request request = new Request.Builder()
                 .url(urlBuilder.build())
+                .header("Accept", "application/json")
+                .header("Authorization", CLIENT_API)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -161,7 +159,8 @@ public class GeolocationFragment extends Fragment {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String jsonResponse = response.body().string();
-                    Log.d("Response", jsonResponse);
+                    Log.e("Response", jsonResponse);
+                    Log.e("Response: ", response.body().string());
 
                     try {
                         JSONObject jsonObject = new JSONObject(jsonResponse);
@@ -181,7 +180,9 @@ public class GeolocationFragment extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                textView.setText(places);
+                                if (isAdded() && getActivity() != null) {
+                                    textView.setText(places);
+                                }
                             }
                         });
 
@@ -193,9 +194,10 @@ public class GeolocationFragment extends Fragment {
                     }
                 } else {
                     // Handle unsuccessful request
+                    textView.setText("Проблемы с запросом");
                 }
             }
         });
-
     }
+
 }

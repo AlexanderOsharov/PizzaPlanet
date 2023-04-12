@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.tasks.Task;
 import com.shurik.pizzaplanet.Constants;
-import com.shurik.pizzaplanet.R;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -25,7 +24,6 @@ import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.shurik.pizzaplanet.databinding.FragmentCustomerBinding;
 import com.shurik.pizzaplanet.databinding.FragmentGeolocationBinding;
 
 import org.jetbrains.annotations.NotNull;
@@ -123,6 +121,7 @@ public class GeolocationFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void searchForPizzaPlaces(Location location) {
+
         OkHttpClient client = new OkHttpClient();
 
         final String FOURSQUARE_API = "https://api.foursquare.com/v3/places/search";
@@ -147,6 +146,7 @@ public class GeolocationFragment extends Fragment {
                 .header("Accept", "application/json")
                 .header("Authorization", CLIENT_API)
                 .build();
+
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -174,7 +174,7 @@ public class GeolocationFragment extends Fragment {
 
                             // Добавляем имя заведения в список places
                             placesBuilder.append(placeName).append("\n");
-                        }
+                       }
 
                         final String places = placesBuilder.toString();
                         getActivity().runOnUiThread(new Runnable() {

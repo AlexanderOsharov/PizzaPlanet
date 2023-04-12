@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.WindowManager;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.shurik.pizzaplanet.fragments.GeolocationFragment;
 import com.shurik.pizzaplanet.fragments.SupplierFragment;
@@ -25,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         loadFragment(new SupplierFragment());
@@ -60,5 +65,15 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (TutorialActivity.whatIsIt == 1) {
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        } else if (TutorialActivity.whatIsIt == 2) {
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        }
     }
 }

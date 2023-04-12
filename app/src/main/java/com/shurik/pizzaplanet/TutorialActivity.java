@@ -15,11 +15,11 @@ import com.shurik.pizzaplanet.databinding.ActivityTutorialBinding;
 
 public class TutorialActivity extends AppCompatActivity {
 
-    ActivityTutorialBinding binding;
+    private ActivityTutorialBinding binding;
 
-    TextView[] dots;
+    private TextView[] dots;
 
-    ViewPagerAdapter viewPagerAdapter;
+    private ViewPagerAdapter viewPagerAdapter;
 
     public static int whatIsIt;
 
@@ -69,7 +69,6 @@ public class TutorialActivity extends AppCompatActivity {
         binding.slideViewPager.setAdapter(viewPagerAdapter);
 
         setUpIndicator(0);
-        // что с ней не так?
         binding.slideViewPager.addOnPageChangeListener(viewListener);
     }
 
@@ -109,7 +108,6 @@ public class TutorialActivity extends AppCompatActivity {
 
         @Override
         public void onPageScrollStateChanged(int state) {
-
         }
     };
 
@@ -117,10 +115,8 @@ public class TutorialActivity extends AppCompatActivity {
     private int getItem(int i) {
         return binding.slideViewPager.getCurrentItem() + i;
     }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-    }
 }
+
+/**
+ * Сделать плавную анимацию для текста
+ */

@@ -147,6 +147,7 @@ public class GeolocationFragment extends Fragment {
                 .header("Authorization", CLIENT_API)
                 .build();
 
+
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -173,7 +174,7 @@ public class GeolocationFragment extends Fragment {
 
                             // Добавляем имя заведения в список places
                             placesBuilder.append(placeName).append("\n");
-                        }
+                       }
 
                         final String places = placesBuilder.toString();
                         getActivity().runOnUiThread(new Runnable() {

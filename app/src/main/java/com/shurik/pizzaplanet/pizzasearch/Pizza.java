@@ -15,27 +15,30 @@ public class Pizza {
 
     public Pizza(String html){
         Document doc = Jsoup.parse(html);
-        Element pizzaElem = doc.selectFirst("div.business-full-items-grouped-view__title:contains(Пицца)");
+        Element pizzaElem = doc.selectFirst("div.business-full-items-grouped-view__title");
 
         if (pizzaElem != null) {
-            Elements categoryElems = pizzaElem.nextElementSiblings();
-            for (Element categoryElem : categoryElems) {
-                if (categoryElem.hasClass("business-full-items-grouped-view__category")) {
-                    Elements itemElems = categoryElem.nextElementSiblings();
-                    for (Element itemElem : itemElems) {
-                        if (itemElem.hasClass("related-item-list-view__pizzaName")) {
-                            pizzaName.add(itemElem.text());
-                        } else if (itemElem.hasClass("related-item-list-view__price")) {
-                            price.add(itemElem.text());
-                        } else if (itemElem.hasClass("image__bg")) {
-                            Element imgElem = itemElem.selectFirst("img");
-                            if (imgElem != null) {
-                                imageUrl.add(imgElem.attr("imageUrl"));
+            String text = pizzaElem.text();
+            if (text.contains("Пицца")) {
+                Elements categoryElems = pizzaElem.nextElementSiblings();
+                for (Element categoryElem : categoryElems) {
+                    if (categoryElem.hasClass("business-full-items-grouped-view__category")) {
+                        Elements itemElems = categoryElem.nextElementSiblings();
+                        for (Element itemElem : itemElems) {
+                            if (itemElem.hasClass("related-item-list-view__pizzaName")) {
+                                pizzaName.add(itemElem.text());
+                            } else if (itemElem.hasClass("related-item-list-view__price")) {
+                                price.add(itemElem.text());
+                            } else if (itemElem.hasClass("image__bg")) {
+                                Element imgElem = itemElem.selectFirst("img");
+                                if (imgElem != null) {
+                                    imageUrl.add(imgElem.attr("imageUrl"));
+                                }
+                            } else if (itemElem.hasClass("related-item-photo-view__description")) {
+                                pizzaComposition.add(itemElem.attr("pizzaName"));
+                            } else if (itemElem.hasClass("business-full-items-grouped-view__category")) {
+                                break;
                             }
-                        } else if (itemElem.hasClass("related-item-photo-view__description")) {
-                            pizzaComposition.add(itemElem.attr("pizzaName"));
-                        } else if (itemElem.hasClass("business-full-items-grouped-view__category")) {
-                            break;
                         }
                     }
                 }

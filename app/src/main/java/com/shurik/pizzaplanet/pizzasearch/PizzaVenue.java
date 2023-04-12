@@ -1,5 +1,13 @@
 package com.shurik.pizzaplanet.pizzasearch;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class PizzaVenue {
     private String name;
     private String address;

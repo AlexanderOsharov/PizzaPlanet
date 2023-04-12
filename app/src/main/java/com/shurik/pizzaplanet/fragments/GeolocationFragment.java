@@ -25,6 +25,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.shurik.pizzaplanet.databinding.FragmentGeolocationBinding;
+import com.shurik.pizzaplanet.pizzasearch.SpoonacularAPI;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -121,7 +122,8 @@ public class GeolocationFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void searchForPizzaPlaces(Location location) {
-
+        SpoonacularAPI spoonacularAPI = new SpoonacularAPI();
+        spoonacularAPI.getNearbyRestaurants(location);
         OkHttpClient client = new OkHttpClient();
 
         final String FOURSQUARE_API = "https://api.foursquare.com/v3/places/search";

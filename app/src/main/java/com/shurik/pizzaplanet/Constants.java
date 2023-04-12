@@ -7,5 +7,6 @@ public class Constants {
     public static final String YANDEX_OrganizationSearchAPI = "f07e4006-27b1-4c34-ab91-37e3314ad93d";
     public static final String YANDEX_MapKitSDK = "60b852b3-f552-41c4-828e-1f88e837bed9";
     public static final String RAPID_API = "a364f9a01fmsh59257e580267cd5p1348fejsnec8e06a9e189";
+    public static final String SPOONACULAR_API = "cf00fbfdbc57461bbc4ca18b86c48de7";
 
 }

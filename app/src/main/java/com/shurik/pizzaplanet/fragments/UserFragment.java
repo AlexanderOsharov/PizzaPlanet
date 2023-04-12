@@ -3,6 +3,7 @@ package com.shurik.pizzaplanet.fragments;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ public class UserFragment extends Fragment {
         adapter = new ReglogAdapter(getActivity().getSupportFragmentManager());
         binding.pager.setAdapter(adapter);
         binding.tabs.setupWithViewPager(binding.pager);
+
         return binding.getRoot();
     }
 }

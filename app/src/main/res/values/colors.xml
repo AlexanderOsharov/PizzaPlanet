@@ -12,6 +12,6 @@
     <color name="yel_oran">#FFCD4B</color>
 
     // цвет текста
-    <color name="colorText">#3C291A</color>
-    <color name="colorEdit">#EEECEC</color>
+    <color name="colorText">#432914</color>
+    <color name="colorEdit">#43D8D3D3</color>
 </resources>

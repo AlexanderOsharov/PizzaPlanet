@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/login_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:text="Номер телефона"
         android:textColor="@color/colorText"
         android:textSize="16sp" />
@@ -20,14 +19,15 @@
         android:id="@+id/editPhone"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="20dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:background="@color/colorEdit"
+        android:text="  +7 ("
         android:hint="  +7 ("
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginEnd="20dp"
+        android:background="@color/colorEdit"
         android:inputType="phone"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
         android:textColor="@color/colorText" />
 
     <TextView
@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="115dp"
+        android:layout_marginTop="125dp"
         android:text="Пароль"
         android:textColor="@color/colorText"
         android:textSize="16sp" />
@@ -45,19 +45,19 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="145dp"
+        android:layout_marginTop="155dp"
         android:layout_marginEnd="20dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
         android:background="@color/colorEdit"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp" />
 
     <Button
         android:id="@+id/come"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="225dp"
+        android:layout_marginTop="245dp"
         android:background="@drawable/button_shape"
         android:text="Войти"
         android:textColor="@color/white"
@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="285dp"
+        android:layout_marginTop="305dp"
         android:text="Забыли пароль?"
         android:textColor="@color/yel_oran"
         android:textSize="16sp"

@@ -38,7 +38,7 @@ public class CustomerFragment extends Fragment implements PizzaAdapter.OnItemCli
     private FragmentCustomerBinding binding;
     private RecyclerView recyclerViewOrganization;
     private OrganizationAdapter organizationAdapter;
-    private List<Organization> organizationList;
+    private List<Organization> organizationList = new ArrayList<>();;
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
 
     public CustomerFragment() {
@@ -50,7 +50,7 @@ public class CustomerFragment extends Fragment implements PizzaAdapter.OnItemCli
         binding = FragmentCustomerBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewOrganization = binding.organizationRecyclerview;
         recyclerViewOrganization.setLayoutManager(layoutManager);
 
@@ -60,12 +60,12 @@ public class CustomerFragment extends Fragment implements PizzaAdapter.OnItemCli
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ArrayList<Pizza> pizzaArrayList = null;
+        ArrayList<Pizza> pizzaArrayList = new ArrayList<>();
         pizzaArrayList.add(new Pizza("Маргаритта", "сыр с помидорчиками", "https://e0.edimdoma.ru/data/posts/0002/1429/21429-ed4_wide.jpg?1631194036","360"));
         pizzaArrayList.add(new Pizza("Боржоми", "сыр с огурчиками", "https://www.edimdoma.ru/system/images/contents/0001/3568/wide/85419-original.jpg?1628278420","800"));
         Organization organization = new Organization("Шикарная ул., дом 9, Москва", "PizzaPlanet", "1", "", pizzaArrayList);
 
-        ArrayList<Pizza> pizzaArrayList_2 = null;
+        ArrayList<Pizza> pizzaArrayList_2 = new ArrayList<>();
         pizzaArrayList_2.add(new Pizza("1", "0000 u 1111", "https://e0.edimdoma.ru/data/posts/0002/1429/21429-ed4_wide.jpg?1631194036","500"));
         pizzaArrayList_2.add(new Pizza("2", "0110", "https://www.edimdoma.ru/system/images/contents/0001/3568/wide/85419-original.jpg?1628278420","200"));
         Organization organization_2 = new Organization("Замечательная ул., дом 13, Москва", "PizzaPlanet", "1", "", pizzaArrayList_2);

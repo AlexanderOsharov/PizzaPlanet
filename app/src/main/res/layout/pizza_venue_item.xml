@@ -5,12 +5,6 @@
     android:paddingVertical="8dp"
     android:paddingHorizontal="16dp">
 
-    <TextView
-        android:id="@+id/pizza_name"
-        style="@style/PizzaNameTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <ImageView
         android:id="@+id/pizza_image"
         style="@style/PizzaImageStyle"
@@ -19,13 +13,24 @@
         android:layout_marginTop="8dp"/>
 
     <TextView
+        android:id="@+id/pizza_name"
+        style="@style/PizzaNameTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/pizza_image"
+        android:layout_alignTop="@id/pizza_image"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"/>
+
+    <TextView
         android:id="@+id/pizza_composition"
         style="@style/PizzaCompositionTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/pizza_image"
-        android:layout_toRightOf="@id/pizza_image"
-        android:layout_marginLeft="8dp"/>
+        android:layout_toEndOf="@id/pizza_image"
+        android:layout_below="@id/pizza_name"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"/>
 
     <TextView
         android:id="@+id/pizza_venue_price"
@@ -33,9 +38,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/pizza_composition"
-        android:layout_toRightOf="@id/pizza_image"
+        android:layout_toEndOf="@id/pizza_image"
         android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"/>
+        android:layout_marginStart="8dp"/>
 
     <ImageButton
         android:id="@+id/basket"

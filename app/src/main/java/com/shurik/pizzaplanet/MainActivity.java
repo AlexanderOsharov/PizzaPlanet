@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
             switch (item.getItemId()) {
                 case R.id.nav_customer_fragment:
-                    selectedFragment = new GeolocationFragment();
+                    selectedFragment = new CustomerFragment();
                     break;
                 case R.id.nav_supplier_fragment:
                     selectedFragment = new SupplierFragment();

@@ -1,12 +1,13 @@
 package com.shurik.pizzaplanet.pizzasearch;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Organization {
     private String address;
     private String name;
     private String id;
-    private ArrayList<Pizza> pizzas;
+    private List<Pizza> pizzas;
 
     public Organization(String address, String name, String id) {
         this.address = address;
@@ -39,5 +40,9 @@ public class Organization {
                 "Name: " + name + "\n" +
                 "ID: " + id + "\n" +
                 "Pizza" + pizzas.toString();
+    }
+
+    public List<Pizza> getPizzaList() {
+        return pizzas;
     }
 }

@@ -18,11 +18,11 @@ import java.util.List;
 
 public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> {
 
-    private List<PizzaVenue> mPizzaVenues;
+    private List<Pizza> mPizzaVenues;
     private Context mContext;
     private OnItemClickListener mListener;
 
-    public PizzaAdapter(Context context, List<PizzaVenue> pizzaVenues) {
+    public PizzaAdapter(Context context, List<Pizza> pizzaVenues) {
         mContext = context;
         mPizzaVenues = pizzaVenues;
     }
@@ -36,10 +36,9 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        PizzaVenue pizzaVenue = mPizzaVenues.get(position);
+        Pizza pizzaVenue = mPizzaVenues.get(position);
 
-        holder.pizzaVenueName.setText(pizzaVenue.getName());
-        holder.pizzaVenueAddress.setText(pizzaVenue.getAddress());
+        holder.pizzaVenuePrice.setText(pizzaVenue.getPrice());
         loadImageIntoImageView(mContext, pizzaVenue.getImageUrl(), holder.pizzaImage);
         holder.pizzaName.setText(pizzaVenue.getPizzaName());
         holder.pizzaComposition.setText(pizzaVenue.getPizzaComposition());
@@ -61,16 +60,14 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView pizzaVenueName;
-        public TextView pizzaVenueAddress;
+        public TextView pizzaVenuePrice;
         public ImageView pizzaImage;
         public TextView pizzaName;
         public TextView pizzaComposition;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            pizzaVenueName = itemView.findViewById(R.id.pizza_venue_name);
-            pizzaVenueAddress = itemView.findViewById(R.id.pizza_venue_address);
+            pizzaVenuePrice = itemView.findViewById(R.id.pizza_venue_price);
             pizzaImage = itemView.findViewById(R.id.pizza_image);
             pizzaName = itemView.findViewById(R.id.pizza_name);
             pizzaComposition = itemView.findViewById(R.id.pizza_composition);
@@ -89,7 +86,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
     }
 
     public interface OnItemClickListener {
-        void onItemClick(PizzaVenue pizzaVenue);
+        void onItemClick(Pizza pizzaVenue);
     }
 
 }

@@ -7,14 +7,15 @@
     android:paddingHorizontal="16dp">
 
     <TextView
-        android:id="@+id/pizza_venue_name"
+        android:id="@+id/pizza_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        android:textStyle="italic" />
 
     <TextView
-        android:id="@+id/pizza_venue_address"
+        android:id="@+id/pizza_venue_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp" />
@@ -24,14 +25,6 @@
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_marginTop="8dp"/>
-
-    <TextView
-        android:id="@+id/pizza_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textSize="14sp"
-        android:textStyle="italic" />
 
     <TextView
         android:id="@+id/pizza_composition"

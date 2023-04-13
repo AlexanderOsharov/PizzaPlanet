@@ -1,9 +1,11 @@
 package com.shurik.pizzaplanet.pizzasearch;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,11 +46,19 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         holder.pizzaName.setText(pizzaVenue.getPizzaName());
         holder.pizzaComposition.setText(pizzaVenue.getPizzaComposition());
 
-        // Действие при нажатии
+        // Действие при нажатии добавление в корзину
         holder.basketButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext, "Basket", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Действие при нажатии на картинку
+        holder.pizzaImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPizzaDetailsDialog(pizzaVenue);
             }
         });
     }
@@ -81,5 +91,32 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
                 .centerCrop()
                 .into(imageView);
     }
+
+    private void showPizzaDetailsDialog(Pizza pizza) {
+        final Dialog dialog = new Dialog(mContext);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.pizza_details);
+
+        TextView pizzaNameDetails = dialog.findViewById(R.id.pizza_name_details);
+        ImageView pizzaImageDetails = dialog.findViewById(R.id.pizza_image_details);
+        TextView pizzaCompositionDetails = dialog.findViewById(R.id.pizza_composition_details);
+        TextView pizzaVenuePriceDetails = dialog.findViewById(R.id.pizza_venue_price_details);
+        ImageButton closeDetails = dialog.findViewById(R.id.close_details);
+
+        pizzaNameDetails.setText(pizza.getPizzaName());
+        loadImageIntoImageView(mContext, pizza.getImageUrl(), pizzaImageDetails);
+        pizzaCompositionDetails.setText(pizza.getPizzaComposition());
+        pizzaVenuePriceDetails.setText(pizza.getPrice());
+
+        closeDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
 
 }

@@ -33,7 +33,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class CustomerFragment extends Fragment implements PizzaAdapter.OnItemClickListener {
+public class CustomerFragment extends Fragment {
 
     private FragmentCustomerBinding binding;
     private RecyclerView recyclerViewOrganization;
@@ -84,52 +84,4 @@ public class CustomerFragment extends Fragment implements PizzaAdapter.OnItemCli
         recyclerViewOrganization.setAdapter(organizationAdapter);
     }
 
-    public static JSONObject searchPizzaVenues(String latitude, String longitude, String clientId, String clientSecret)
-            throws IOException, JSONException {
-
-        String url = "https://api.foursquare.com/v2/venues/search?v=20190425"
-                + "&ll=" + latitude + "," + longitude
-                + "&intent=browse&radius=500&query=pizza"
-                + "&client_id=" + clientId
-                + "&client_secret=" + clientSecret;
-
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(url).build();
-        Response response = client.newCall(request).execute();
-
-        if (!response.isSuccessful()) {
-            throw new IOException("Ошибка сервера: " + response);
-        }
-
-        String json = response.body().string();
-
-        return new JSONObject(json);
-    }
-
-    public static JSONObject getVenueDetails(String venueId, String clientId, String clientSecret)
-            throws IOException, JSONException {
-        String url = "https://api.foursquare.com/v2/venues/" + venueId
-                + "?v=20190425"
-                + "&client_id=" + clientId
-                + "&client_secret=" + clientSecret;
-
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(url).build();
-        Response response = client.newCall(request).execute();
-        String json = response.body().string();
-
-        return new JSONObject(json);
-    }
-
-    @NonNull
-    @Override
-    public CreationExtras getDefaultViewModelCreationExtras() {
-        return super.getDefaultViewModelCreationExtras();
-    }
-
-    @Override
-    public void onItemClick(Pizza pizzaVenue) {
-        MapDialogFragment dialogFragment = new MapDialogFragment();
-        dialogFragment.show(getFragmentManager(), "dialog");
-    }
 }

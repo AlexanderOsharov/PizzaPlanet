@@ -4,8 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +22,6 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
 
     private List<Pizza> mPizzaVenues;
     private Context mContext;
-    private OnItemClickListener mListener;
 
     public PizzaAdapter(Context context, List<Pizza> pizzaVenues) {
         mContext = context;
@@ -44,12 +45,10 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         holder.pizzaComposition.setText(pizzaVenue.getPizzaComposition());
 
         // Действие при нажатии
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.basketButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mListener != null) {
-                    mListener.onItemClick(pizzaVenue);
-                }
+                Toast.makeText(mContext, "Basket", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -64,6 +63,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         public ImageView pizzaImage;
         public TextView pizzaName;
         public TextView pizzaComposition;
+        public ImageButton basketButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,6 +71,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
             pizzaImage = itemView.findViewById(R.id.pizza_image);
             pizzaName = itemView.findViewById(R.id.pizza_name);
             pizzaComposition = itemView.findViewById(R.id.pizza_composition);
+            basketButton = itemView.findViewById(R.id.basket);
         }
     }
 
@@ -79,14 +80,6 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
                 .load(imageUrl)
                 .centerCrop()
                 .into(imageView);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        mListener = listener;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(Pizza pizzaVenue);
     }
 
 }

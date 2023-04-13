@@ -25,7 +25,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.shurik.pizzaplanet.databinding.FragmentGeolocationBinding;
-import com.shurik.pizzaplanet.pizzasearch.SpoonacularAPI;
+import com.shurik.pizzaplanet.pizzasearch.PizzaParser;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -49,6 +49,7 @@ public class GeolocationFragment extends Fragment {
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private Location mLastKnownLocation;
     private FragmentGeolocationBinding binding;
+
     private TextView textView;
 
     public GeolocationFragment() {

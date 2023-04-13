@@ -1,12 +1,12 @@
 package com.shurik.pizzaplanet.pizzasearch;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class Organization {
     private String address;
     private String name;
     private String id;
-    private Pizza pizzaList;
+    private ArrayList<Pizza> pizzas;
 
     public Organization(String address, String name, String id) {
         this.address = address;
@@ -14,11 +14,11 @@ public class Organization {
         this.id = id;
     }
 
-    public Organization(String address, String name, String id, String html) {
+    public Organization(String address, String name, String id, String html, ArrayList<Pizza> pizzas) {
         this.address = address;
         this.name = name;
         this.id = id;
-        pizzaList = new Pizza(html);
+        this.pizzas = pizzas;
     }
 
     public String getAddress() {
@@ -37,6 +37,7 @@ public class Organization {
     public String toString() {
         return "Addres: " + address + "\n" +
                 "Name: " + name + "\n" +
-                "ID: " + id;
+                "ID: " + id + "\n" +
+                "Pizza" + pizzas.toString();
     }
 }

@@ -22,8 +22,6 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
     private Context mContext;
     private OnItemClickListener mListener;
 
-
-
     public PizzaAdapter(Context context, List<PizzaVenue> pizzaVenues) {
         mContext = context;
         mPizzaVenues = pizzaVenues;

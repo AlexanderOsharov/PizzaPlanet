@@ -15,7 +15,7 @@ public class Organization {
         this.id = id;
     }
 
-    public Organization(String address, String name, String id, String html, ArrayList<Pizza> pizzas) {
+    public Organization(String address, String name, String id, ArrayList<Pizza> pizzas) {
         this.address = address;
         this.name = name;
         this.id = id;
@@ -32,14 +32,6 @@ public class Organization {
 
     public String getId() {
         return id;
-    }
-
-    @Override
-    public String toString() {
-        return "Addres: " + address + "\n" +
-                "Name: " + name + "\n" +
-                "ID: " + id + "\n" +
-                "Pizza" + pizzas.toString();
     }
 
     public List<Pizza> getPizzaList() {

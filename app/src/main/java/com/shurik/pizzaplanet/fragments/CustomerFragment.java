@@ -14,8 +14,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.shurik.pizzaplanet.Constants;
-import com.shurik.pizzaplanet.R;
 import com.shurik.pizzaplanet.databinding.FragmentCustomerBinding;
+import com.shurik.pizzaplanet.pizzasearch.Organization;
+import com.shurik.pizzaplanet.pizzasearch.OrganizationAdapter;
+import com.shurik.pizzaplanet.pizzasearch.Pizza;
 import com.shurik.pizzaplanet.pizzasearch.PizzaAdapter;
 import com.shurik.pizzaplanet.pizzasearch.PizzaVenue;
 
@@ -34,8 +36,9 @@ import okhttp3.Response;
 public class CustomerFragment extends Fragment implements PizzaAdapter.OnItemClickListener {
 
     private FragmentCustomerBinding binding;
-    private RecyclerView recyclerView;
-    private PizzaAdapter pizzaAdapter;
+    private RecyclerView recyclerViewOrganization;
+    private OrganizationAdapter organizationAdapter;
+    private List<Organization> organizationList = new ArrayList<>();;
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
 
     public CustomerFragment() {
@@ -47,9 +50,9 @@ public class CustomerFragment extends Fragment implements PizzaAdapter.OnItemCli
         binding = FragmentCustomerBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView = binding.pizzaVenueRecyclerview;
-        recyclerView.setLayoutManager(layoutManager);
+        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewOrganization = binding.organizationRecyclerview;
+        recyclerViewOrganization.setLayoutManager(layoutManager);
 
         return view;
     }
@@ -57,59 +60,28 @@ public class CustomerFragment extends Fragment implements PizzaAdapter.OnItemCli
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        try {
-            // Вызываем метод searchPizzaVenues для получения списка пиццерий
-            JSONObject pizzaVenues = searchPizzaVenues("55.790199", "37.531649",
-                    Constants.FOURSQUARE_ClientId, Constants.FOURSQUARE_ClientSecret);
+        ArrayList<Pizza> pizzaArrayList = new ArrayList<>();
+        pizzaArrayList.add(new Pizza("Маргаритта", "сыр с помидорчиками", "https://e0.edimdoma.ru/data/posts/0002/1429/21429-ed4_wide.jpg?1631194036","360"));
+        pizzaArrayList.add(new Pizza("Боржоми", "сыр с огурчиками", "https://www.edimdoma.ru/system/images/contents/0001/3568/wide/85419-original.jpg?1628278420","800"));
+        Organization organization = new Organization("Шикарная ул., дом 9, Москва", "PizzaPlanet", "1", "", pizzaArrayList);
 
-            // Обработка JSON-объекта и извлечение информации о пиццериях
-            JSONObject response = pizzaVenues.getJSONObject("response");
-            JSONArray venues = response.getJSONArray("venues");
+        ArrayList<Pizza> pizzaArrayList_2 = new ArrayList<>();
+        pizzaArrayList_2.add(new Pizza("1", "0000 u 1111", "https://e0.edimdoma.ru/data/posts/0002/1429/21429-ed4_wide.jpg?1631194036","500"));
+        pizzaArrayList_2.add(new Pizza("2", "0110", "https://www.edimdoma.ru/system/images/contents/0001/3568/wide/85419-original.jpg?1628278420","200"));
+        Organization organization_2 = new Organization("Замечательная ул., дом 13, Москва", "PizzaPlanet", "1", "", pizzaArrayList_2);
 
-            // Создаем список объектов класса PizzaVenue, которые будут содержать информацию о каждой пиццерии
-            List<PizzaVenue> pizzaVenuesList = new ArrayList<PizzaVenue>();
-            for (int i = 0; i < venues.length(); i++) {
-                JSONObject venue = venues.getJSONObject(i);
-                String venueId = venue.getString("id");
-                String name = venue.getString("name");
-                JSONObject venueDetails = getVenueDetails(venueId, Constants.FOURSQUARE_ClientId, Constants.FOURSQUARE_ClientSecret);
-                String address = venue.getJSONObject("location").getString("address");
+        organizationList.add(organization);
+        organizationList.add(organization_2);
 
-                // Получить информацию о пицце и изображении из API
-                String pizzaName = "", pizzaComposition = "", imageUrl = "";
-
-                // Для примера мы предполагаем, что информация о пицце находится в первой записи меню.
-                if (venueDetails.has("response") && venueDetails.getJSONObject("response").has("venues") &&
-                        venueDetails.getJSONObject("response").getJSONArray("venues").length() > 0) {
-                    JSONObject menu = venueDetails.getJSONObject("response").getJSONArray("venues").getJSONObject(0);
-                    if (menu.has("name")) {
-                        pizzaName = menu.getString("name");
-                    }
-                }
-
-                PizzaVenue pizza_Venue = new PizzaVenue(name, address, pizzaName, pizzaComposition, imageUrl);
-                pizzaVenuesList.add(pizza_Venue);
-            }
-
-
-            // Обновление пользовательского интерфейса с информацией о пиццериях
-            updateUIWithPizzaVenues(pizzaVenuesList);
-
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-            //handle connection error
-            Toast.makeText(getContext(), "Ошибка подключения к серверу. Проверьте соединение и повторите запрос.", Toast.LENGTH_SHORT).show();
-        }
-
+        updateUIWithPizzaVenues(organizationList);
     }
 
-    private void updateUIWithPizzaVenues(List<PizzaVenue> pizzaVenuesList) {
+    private void updateUIWithPizzaVenues(List<Organization> pizzaVenuesList) {
         // Передать информацию о пиццериях в RecyclerView или другой виджет для отображения данных пользователю
         // Чтобы работать с картами Yandex, установите и импортируйте нужные зависимости (см. https://yandex.ru/dev/maps/mapkit/doc/android-ref/full/index.html)
         // Интегрируйте карту Yandex с приложением, используя информацию из списка pizzaVenuesList для отображения маркеров
-        pizzaAdapter = new PizzaAdapter(getContext(), pizzaVenuesList);
-        pizzaAdapter.setOnItemClickListener((PizzaAdapter.OnItemClickListener) getContext());
-        recyclerView.setAdapter(pizzaAdapter);
+        organizationAdapter = new OrganizationAdapter(getContext(), pizzaVenuesList);
+        recyclerViewOrganization.setAdapter(organizationAdapter);
     }
 
     public static JSONObject searchPizzaVenues(String latitude, String longitude, String clientId, String clientSecret)
@@ -149,15 +121,15 @@ public class CustomerFragment extends Fragment implements PizzaAdapter.OnItemCli
         return new JSONObject(json);
     }
 
-    @Override
-    public void onItemClick(PizzaVenue pizzaVenue) {
-        MapDialogFragment dialogFragment = new MapDialogFragment();
-        dialogFragment.show(getFragmentManager(), "dialog");
-    }
-
     @NonNull
     @Override
     public CreationExtras getDefaultViewModelCreationExtras() {
         return super.getDefaultViewModelCreationExtras();
+    }
+
+    @Override
+    public void onItemClick(Pizza pizzaVenue) {
+        MapDialogFragment dialogFragment = new MapDialogFragment();
+        dialogFragment.show(getFragmentManager(), "dialog");
     }
 }

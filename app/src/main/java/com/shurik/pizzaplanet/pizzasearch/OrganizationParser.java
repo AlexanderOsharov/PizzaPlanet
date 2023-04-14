@@ -1,10 +1,13 @@
 package com.shurik.pizzaplanet.pizzasearch;
 
+import android.location.Location;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.shurik.pizzaplanet.model.Organization;
+import com.shurik.pizzaplanet.model.Pizza;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,13 +18,13 @@ import okhttp3.Response;
 
 public class OrganizationParser {
     // Метод для получения ближайших организаций
-    public static ArrayList<Organization> getOrganizations() throws IOException {
+    public static ArrayList<Organization> getOrganizations(Location location) throws IOException {
         ArrayList<Organization> organizations = new ArrayList<>();
 
         // Запрос
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().
-                url("https://search-maps.yandex.ru/v1/?text=пицца,кафе,Волгоград&type=biz&ll=48.68,44.48&spn=0.552069,0.400552&lang=ru_RU&results=10&apikey=f07e4006-27b1-4c34-ab91-37e3314ad93d").
+                url("https://search-maps.yandex.ru/v1/?text=пицца,кафе,ресторан,Москва&type=biz&ll=" + location.getLatitude() + "," + location.getLongitude() + "&spn=0.552069,0.400552&lang=ru_RU&results=10&apikey=f07e4006-27b1-4c34-ab91-37e3314ad93d").
                 build();
         Response response = client.newCall(request).execute();
 
@@ -35,7 +38,15 @@ public class OrganizationParser {
             String address = String.valueOf(companyMetaData.get("address")).replace("\"", "");
             String name = String.valueOf(companyMetaData.get("name")).replace("\"", "");
             String id = String.valueOf(companyMetaData.get("id")).replace("\"", "");
-            organizations.add(new Organization(address, name, id));
+
+            JsonObject geometry = (JsonObject) item.getAsJsonObject().get("geometry");
+            JsonArray coordinates = geometry.getAsJsonArray("geometry");
+            String latitude = String.valueOf(coordinates.get(0));
+            String longitude = String.valueOf(coordinates.get(1));
+
+            ArrayList<Pizza> pizzas = PizzaParser.getPizzas(id);
+
+            organizations.add(new Organization(address, name, id, pizzas, latitude, longitude));
         }
 
         return organizations;

@@ -39,13 +39,6 @@ public class Organization {
         return pizzas;
     }
 
-    public Organization(String address, String name, String id, ArrayList<Pizza> pizzas) {
-        this.address = address;
-        this.name = name;
-        this.id = id;
-        this.pizzas = pizzas;
-    }
-
     public String getAddress() {
         return address;
     }

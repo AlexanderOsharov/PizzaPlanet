@@ -7,6 +7,7 @@ import androidx.lifecycle.viewmodel.CreationExtras;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.shurik.pizzaplanet.Constants;
+import com.shurik.pizzaplanet.MainActivity;
 import com.shurik.pizzaplanet.databinding.FragmentCustomerBinding;
+import com.shurik.pizzaplanet.fragments.geolocation.Geolocation;
 import com.shurik.pizzaplanet.pizzasearch.Organization;
 import com.shurik.pizzaplanet.pizzasearch.OrganizationAdapter;
 import com.shurik.pizzaplanet.pizzasearch.Pizza;
@@ -41,6 +44,8 @@ public class CustomerFragment extends Fragment {
     private List<Organization> organizationList = new ArrayList<>();;
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
 
+    Geolocation geolocation;
+
     public CustomerFragment() {
         // Required empty public constructor
     }
@@ -54,12 +59,15 @@ public class CustomerFragment extends Fragment {
         recyclerViewOrganization = binding.organizationRecyclerview;
         recyclerViewOrganization.setLayoutManager(layoutManager);
 
+        geolocation = new Geolocation(getActivity());
+
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         ArrayList<Pizza> pizzaArrayList = new ArrayList<>();
         pizzaArrayList.add(new Pizza("Маргаритта", "сыр с помидорчиками", "https://e0.edimdoma.ru/data/posts/0002/1429/21429-ed4_wide.jpg?1631194036","360"));
         pizzaArrayList.add(new Pizza("Боржоми", "сыр с огурчиками", "https://www.edimdoma.ru/system/images/contents/0001/3568/wide/85419-original.jpg?1628278420","800"));
@@ -79,7 +87,9 @@ public class CustomerFragment extends Fragment {
     }
 
     private void updateUIWithPizzaVenues(List<Organization> pizzaVenuesList) {
-        organizationAdapter = new OrganizationAdapter(getContext(), pizzaVenuesList, "55.798292", "37.512366");
+        Location location = geolocation.getUserLocation();
+
+        organizationAdapter = new OrganizationAdapter(getContext(), pizzaVenuesList, location.getLatitude(), location.getLongitude());
         recyclerViewOrganization.setAdapter(organizationAdapter);
     }
 

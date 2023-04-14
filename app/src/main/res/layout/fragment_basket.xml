@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_basket"
-    tools:context=".fragments.BasketFragment">
+    tools:context=".fragments.BasketFragment"
+    android:orientation="horizontal">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pizza_recyclerview"
@@ -14,10 +15,10 @@
         tools:listitem="@layout/basket_item"
         />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Выбрать доставщика"
         android:background="#FF5E00"
         />
-</FrameLayout>
+</LinearLayout>

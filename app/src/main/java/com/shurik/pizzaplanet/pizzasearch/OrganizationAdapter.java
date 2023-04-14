@@ -31,15 +31,15 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
     private Context context;
     private List<Organization> organizationList;
     private PizzaAdapter pizzaAdapter;
-    private String latitude;
-    private String longitude;
+    private Double latitude;
+    private Double longitude;
 
     public OrganizationAdapter(Context context, List<Organization> organizationList) {
         this.context = context;
         this.organizationList = organizationList;
     }
 
-    public OrganizationAdapter(Context context, List<Organization> organizationList, String latitude, String longitude) {
+    public OrganizationAdapter(Context context, List<Organization> organizationList, Double latitude, Double longitude) {
         this.context = context;
         this.organizationList = organizationList;
         this.latitude = latitude;
@@ -68,7 +68,7 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
 
         holder.organizationAddress.setOnClickListener(view -> {
             MapDialogFragment mapDialogFragment = MapDialogFragment.newInstance(
-                    new Point(Double.parseDouble(latitude), Double.parseDouble(longitude)),
+                    new Point(latitude, longitude),
                     new Point(Double.parseDouble(organization.getLatitude()), Double.parseDouble(organization.getLongitude()))
             );
 

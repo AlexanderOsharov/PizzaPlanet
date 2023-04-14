@@ -101,7 +101,8 @@ public class MapDialogFragment extends DialogFragment implements Session.RouteLi
         View contentView = inflater.inflate(R.layout.dialog_map, container, false);
 
         mapView = contentView.findViewById(R.id.map_view);
-        mapView.getMap().move(new CameraPosition(currentPoint, 14, 0, 0));
+        mapView.getMap().move(new CameraPosition(currentPoint, 14, 0, 0),
+                new Animation(Animation.Type.SMOOTH, 5f), null);
 
         drivingRouter = DirectionsFactory.getInstance().createDrivingRouter();
         mapObjects = mapView.getMap().getMapObjects().addCollection();

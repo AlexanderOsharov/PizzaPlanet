@@ -79,9 +79,6 @@ public class CustomerFragment extends Fragment {
     }
 
     private void updateUIWithPizzaVenues(List<Organization> pizzaVenuesList) {
-        // Передать информацию о пиццериях в RecyclerView или другой виджет для отображения данных пользователю
-        // Чтобы работать с картами Yandex, установите и импортируйте нужные зависимости (см. https://yandex.ru/dev/maps/mapkit/doc/android-ref/full/index.html)
-        // Интегрируйте карту Yandex с приложением, используя информацию из списка pizzaVenuesList для отображения маркеров
         organizationAdapter = new OrganizationAdapter(getContext(), pizzaVenuesList, "55.798292", "37.512366");
         recyclerViewOrganization.setAdapter(organizationAdapter);
     }

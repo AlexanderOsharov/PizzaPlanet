@@ -55,8 +55,8 @@ import java.util.Locale;
 
 public class MapDialogFragment extends DialogFragment implements Session.RouteListener, DrivingSession.DrivingRouteListener {
     private MapView mapView;
-    private Point currentPoint; // This will store the current latitude and longitude
-    private Point destinationPoint; // This will store the latitude and longitude of the organization
+    private Point currentPoint; // Текущие координаты
+    private Point destinationPoint; // Координаты изготовителя
     private ArrayList<String> routesInfo = new ArrayList<>();
     private ImageButton closeButton;
 
@@ -71,7 +71,7 @@ public class MapDialogFragment extends DialogFragment implements Session.RouteLi
 
 
 
-    // Call this method to create a new instance of the dialog with the required points
+    // Вызовите этот метод, чтобы создать новый экземпляр диалогового окна с требуемыми точками
     public static MapDialogFragment newInstance(Point currentPoint, Point destinationPoint) {
         MapDialogFragment fragment = new MapDialogFragment();
         Bundle args = new Bundle();
@@ -102,14 +102,6 @@ public class MapDialogFragment extends DialogFragment implements Session.RouteLi
 
         mapView = contentView.findViewById(R.id.map_view);
         mapView.getMap().move(new CameraPosition(currentPoint, 14, 0, 0));
-
-        /*PlacemarkMapObject currentPlacemark = mapView.getMap().getMapObjects().addPlacemark(currentPoint);
-        currentPlacemark.setOpacity(0.85f);
-        currentPlacemark.setIcon(ImageProvider.fromResource(requireActivity(), R.drawable.current_location_icon));
-
-        PlacemarkMapObject destinationPlacemark = mapView.getMap().getMapObjects().addPlacemark(destinationPoint);
-        destinationPlacemark.setOpacity(0.85f);
-        destinationPlacemark.setIcon(ImageProvider.fromResource(requireActivity(), R.drawable.destination_location_icon));*/
 
         drivingRouter = DirectionsFactory.getInstance().createDrivingRouter();
         mapObjects = mapView.getMap().getMapObjects().addCollection();

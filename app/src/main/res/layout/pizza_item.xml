@@ -74,7 +74,7 @@
         android:layout_marginTop="175dp"
         android:src="@drawable/plus" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/addBtn"
         android:layout_width="70dp"
         android:layout_height="30dp"

@@ -28,16 +28,12 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
     // адаптер для пицц
     private PizzaAdapter pizzaAdapter;
 
-    // manager для списка пицц
-    private LinearLayoutManager pizzaManger;
-
     private Double latitude;
     private Double longitude;
 
     public OrganizationAdapter(Context context, List<Organization> organizationList) {
         this.context = context;
         this.organizationList = organizationList;
-        this.pizzaManger = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
     }
 
     public OrganizationAdapter(Context context, List<Organization> organizationList, Double latitude, Double longitude) {
@@ -45,7 +41,6 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
         this.organizationList = organizationList;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.pizzaManger = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
     }
 
     @NonNull
@@ -63,8 +58,8 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
 
         holder.organizationName.setOnClickListener(view -> {
             RecyclerView pizzaRecyclerView = ((Activity) context).findViewById(R.id.pizza_recyclerview_customer);
+            pizzaRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             pizzaAdapter = new PizzaAdapter(context, organization.getPizzaList());
-            pizzaRecyclerView.setLayoutManager(new LinearLayoutManager(context));
             pizzaRecyclerView.setAdapter(pizzaAdapter);
         });
 

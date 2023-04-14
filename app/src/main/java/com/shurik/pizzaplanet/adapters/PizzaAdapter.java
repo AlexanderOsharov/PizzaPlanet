@@ -79,7 +79,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
             pizzaFee = itemView.findViewById(R.id.fee);
             pizzaPic = itemView.findViewById(R.id.pic);
             pizzaTitle = itemView.findViewById(R.id.title);
-            basketButton = itemView.findViewById(R.id.basketBtn);
+            basketButton = itemView.findViewById(R.id.addBtn);
         }
     }
 

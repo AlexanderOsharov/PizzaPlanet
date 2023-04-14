@@ -16,6 +16,7 @@ import com.shurik.pizzaplanet.fragments.CustomerFragment;
 import com.shurik.pizzaplanet.fragments.BasketFragment;
 import com.shurik.pizzaplanet.fragments.UserFragment;
 import com.shurik.pizzaplanet.fragments.UserSettingsFragment;
+import com.yandex.mapkit.MapKitFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Инициализация Yandex-MapKit
+        MapKitFactory.setApiKey(Constants.YANDEX_MapKitSDK);
+        MapKitFactory.initialize(this);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);

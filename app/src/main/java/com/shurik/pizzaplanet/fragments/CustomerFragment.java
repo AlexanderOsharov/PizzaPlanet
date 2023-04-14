@@ -63,12 +63,12 @@ public class CustomerFragment extends Fragment {
         ArrayList<Pizza> pizzaArrayList = new ArrayList<>();
         pizzaArrayList.add(new Pizza("Маргаритта", "сыр с помидорчиками", "https://e0.edimdoma.ru/data/posts/0002/1429/21429-ed4_wide.jpg?1631194036","360"));
         pizzaArrayList.add(new Pizza("Боржоми", "сыр с огурчиками", "https://www.edimdoma.ru/system/images/contents/0001/3568/wide/85419-original.jpg?1628278420","800"));
-        Organization organization = new Organization("Шикарная ул., дом 9, Москва", "PizzaPlanet", "1", "", pizzaArrayList);
+        Organization organization = new Organization("Шикарная ул., дом 9, Москва", "PizzaPlanet", "1", pizzaArrayList, "55.996596", "37.220086");
 
         ArrayList<Pizza> pizzaArrayList_2 = new ArrayList<>();
         pizzaArrayList_2.add(new Pizza("1", "0000 u 1111", "https://e0.edimdoma.ru/data/posts/0002/1429/21429-ed4_wide.jpg?1631194036","500"));
         pizzaArrayList_2.add(new Pizza("2", "0110", "https://www.edimdoma.ru/system/images/contents/0001/3568/wide/85419-original.jpg?1628278420","200"));
-        Organization organization_2 = new Organization("Замечательная ул., дом 13, Москва", "PizzaPlanet", "1", "", pizzaArrayList_2);
+        Organization organization_2 = new Organization("Замечательная ул., дом 13, Москва", "PizzaPlanet", "1", pizzaArrayList_2, "55.996596", "37.220086");
 
         organizationList.add(organization);
         organizationList.add(organization_2);
@@ -80,7 +80,7 @@ public class CustomerFragment extends Fragment {
         // Передать информацию о пиццериях в RecyclerView или другой виджет для отображения данных пользователю
         // Чтобы работать с картами Yandex, установите и импортируйте нужные зависимости (см. https://yandex.ru/dev/maps/mapkit/doc/android-ref/full/index.html)
         // Интегрируйте карту Yandex с приложением, используя информацию из списка pizzaVenuesList для отображения маркеров
-        organizationAdapter = new OrganizationAdapter(getContext(), pizzaVenuesList);
+        organizationAdapter = new OrganizationAdapter(getContext(), pizzaVenuesList, "55.798292", "37.512366");
         recyclerViewOrganization.setAdapter(organizationAdapter);
     }
 

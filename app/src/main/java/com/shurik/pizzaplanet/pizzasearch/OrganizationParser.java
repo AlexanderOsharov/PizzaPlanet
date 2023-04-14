@@ -46,7 +46,9 @@ public class OrganizationParser {
 
             ArrayList<Pizza> pizzas = PizzaParser.getPizzas(id);
 
-            organizations.add(new Organization(address, name, id, pizzas, latitude, longitude));
+            if (pizzas != null) {
+                organizations.add(new Organization(address, name, id, pizzas, latitude, longitude));
+            }
         }
 
         return organizations;

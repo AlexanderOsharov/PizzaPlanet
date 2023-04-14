@@ -31,7 +31,7 @@ public class PizzaParser {
                         for (Element e : info) {
                             pizzas.add(new Pizza(e.select(".related-item-photo-view__title").text(),
                                     e.select(".related-item-photo-view__description").text(),
-                                    null,
+                                    "https://e0.edimdoma.ru/data/posts/0002/1429/21429-ed4_wide.jpg?1631194036",
                                     e.select(".related-product-view__price").text()));
                         }
                     }

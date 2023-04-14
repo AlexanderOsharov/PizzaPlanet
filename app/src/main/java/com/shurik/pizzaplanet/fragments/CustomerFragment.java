@@ -37,9 +37,6 @@ public class CustomerFragment extends Fragment {
     // адаптер для организаций
     private OrganizationAdapter organizationAdapter;
 
-    // список организаций
-    private ArrayList<Organization> organizationList = new ArrayList<>();
-
     // список новостей
     private final ArrayList<New> news = new ArrayList<>();
 
@@ -89,7 +86,7 @@ public class CustomerFragment extends Fragment {
         //823622
         Location location = geolocation.getUserLocation();
         try {
-            organizationList = OrganizationParser.getOrganizations(location);
+            ArrayList<Organization> organizationList = OrganizationParser.getOrganizations(location);
             updateUIWithPizzaVenues(organizationList);
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -12,13 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.shurik.pizzaplanet.R;
 import com.shurik.pizzaplanet.adapters.BasketAdapter;
 import com.shurik.pizzaplanet.databinding.FragmentBasketBinding;
-import com.shurik.pizzaplanet.databinding.FragmentCustomerBinding;
-import com.shurik.pizzaplanet.pizzasearch.Organization;
-import com.shurik.pizzaplanet.pizzasearch.OrganizationAdapter;
-import com.shurik.pizzaplanet.pizzasearch.Pizza;
+import com.shurik.pizzaplanet.model.Pizza;
 
 import java.util.ArrayList;
 import java.util.List;

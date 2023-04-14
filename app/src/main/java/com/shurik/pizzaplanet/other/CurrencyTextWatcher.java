@@ -3,7 +3,7 @@ package com.shurik.pizzaplanet.other;
 import android.text.Editable;
 import android.text.TextWatcher;
 
-// форматирование номера телфона
+// форматирование editText
 public class CurrencyTextWatcher implements TextWatcher {
 
     private StringBuilder builder = new StringBuilder();

@@ -1,4 +1,4 @@
-package com.shurik.pizzaplanet;
+package com.shurik.pizzaplanet.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.shurik.pizzaplanet.R;
 import com.shurik.pizzaplanet.adapters.ViewPagerAdapter;
 import com.shurik.pizzaplanet.databinding.ActivityTutorialBinding;
 

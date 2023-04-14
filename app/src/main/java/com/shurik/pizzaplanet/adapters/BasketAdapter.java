@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.shurik.pizzaplanet.R;
-import com.shurik.pizzaplanet.pizzasearch.Pizza;
+import com.shurik.pizzaplanet.model.Pizza;
 
 import java.util.List;
 
@@ -33,10 +33,10 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
     @Override
     public void onBindViewHolder(@NonNull BasketViewHolder holder, int position) {
         Pizza pizza = pizzaList.get(position);
-        holder.pizzaTitle.setText(pizza.getPizzaName());
-        holder.price.setText(pizza.getPizzaPrise());
+        holder.pizzaTitle.setText(pizza.getTitle());
+        holder.price.setText(pizza.getFee());
         Glide.with(holder.pizzaImage.getContext())
-                .load(pizza.getPizzaImageUrl())
+                .load(pizza.getPic())
                 .into(holder.pizzaImage);
     }
 

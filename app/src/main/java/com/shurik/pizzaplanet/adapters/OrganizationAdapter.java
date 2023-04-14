@@ -1,16 +1,10 @@
-package com.shurik.pizzaplanet.pizzasearch;
+package com.shurik.pizzaplanet.adapters;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,23 +14,30 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.shurik.pizzaplanet.R;
 import com.shurik.pizzaplanet.fragments.MapDialogFragment;
-import com.yandex.mapkit.geometry.Geo;
+import com.shurik.pizzaplanet.model.Organization;
 import com.yandex.mapkit.geometry.Point;
-import com.yandex.mapkit.map.CameraPosition;
-import com.yandex.mapkit.mapview.MapView;
 
 import java.util.List;
 
 public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapter.ViewHolder> {
     private Context context;
+
+    // список организаций
     private List<Organization> organizationList;
+
+    // адаптер для пицц
     private PizzaAdapter pizzaAdapter;
+
+    // manager для списка пицц
+    private LinearLayoutManager pizzaManger;
+
     private Double latitude;
     private Double longitude;
 
     public OrganizationAdapter(Context context, List<Organization> organizationList) {
         this.context = context;
         this.organizationList = organizationList;
+        this.pizzaManger = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
     }
 
     public OrganizationAdapter(Context context, List<Organization> organizationList, Double latitude, Double longitude) {
@@ -44,6 +45,7 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
         this.organizationList = organizationList;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.pizzaManger = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
     }
 
     @NonNull
@@ -60,10 +62,10 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
         holder.organizationAddress.setText(organization.getAddress());
 
         holder.organizationName.setOnClickListener(view -> {
-            RecyclerView pizzaRecyclerView = ((Activity) context).findViewById(R.id.pizza_venue_recyclerview);
+            RecyclerView pizzaRecyclerView = ((Activity) context).findViewById(R.id.pizza_recyclerview_customer);
             pizzaAdapter = new PizzaAdapter(context, organization.getPizzaList());
-            pizzaRecyclerView.setAdapter(pizzaAdapter);
             pizzaRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+            pizzaRecyclerView.setAdapter(pizzaAdapter);
         });
 
         holder.organizationAddress.setOnClickListener(view -> {

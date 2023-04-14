@@ -1,4 +1,4 @@
-package com.shurik.pizzaplanet.pizzasearch;
+package com.shurik.pizzaplanet.adapters;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -9,14 +9,13 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.shurik.pizzaplanet.R;
-import com.shurik.pizzaplanet.pizzasearch.PizzaVenue;
+import com.shurik.pizzaplanet.model.Pizza;
 
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pizza_venue_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pizza_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -41,21 +40,20 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Pizza pizzaVenue = mPizzaVenues.get(position);
 
-        holder.pizzaVenuePrice.setText(pizzaVenue.getPizzaPrise());
-        loadImageIntoImageView(mContext, pizzaVenue.getPizzaImageUrl(), holder.pizzaImage);
-        holder.pizzaName.setText(pizzaVenue.getPizzaName());
-        holder.pizzaComposition.setText(pizzaVenue.pizzaDescription());
+        holder.pizzaFee.setText(pizzaVenue.getFee());
+        loadImageIntoImageView(mContext, pizzaVenue.getPic(), holder.pizzaPic);
+        holder.pizzaTitle.setText(pizzaVenue.getTitle());
 
         // Действие при нажатии добавление в корзину
         holder.basketButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "Basket", Toast.LENGTH_SHORT).show();
+                // TODO прописать функционал добавления в корзину
             }
         });
 
         // Действие при нажатии на картинку
-        holder.pizzaImage.setOnClickListener(new View.OnClickListener() {
+        holder.pizzaPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPizzaDetailsDialog(pizzaVenue);
@@ -63,33 +61,31 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         });
     }
 
+    // кол - во пицц
     @Override
     public int getItemCount() {
         return mPizzaVenues.size();
     }
 
+    // viewHolder для пиццы
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView pizzaVenuePrice;
-        public ImageView pizzaImage;
-        public TextView pizzaName;
-        public TextView pizzaComposition;
+        public TextView pizzaFee;
+        public ImageView pizzaPic;
+        public TextView pizzaTitle;
         public ImageButton basketButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            pizzaVenuePrice = itemView.findViewById(R.id.pizza_venue_price);
-            pizzaImage = itemView.findViewById(R.id.pizza_image);
-            pizzaName = itemView.findViewById(R.id.pizza_name);
-            pizzaComposition = itemView.findViewById(R.id.pizza_composition);
-            basketButton = itemView.findViewById(R.id.basket);
+            pizzaFee = itemView.findViewById(R.id.fee);
+            pizzaPic = itemView.findViewById(R.id.pic);
+            pizzaTitle = itemView.findViewById(R.id.title);
+            basketButton = itemView.findViewById(R.id.basketBtn);
         }
     }
 
+    // загружаем картинку
     private void loadImageIntoImageView(Context context, String imageUrl, ImageView imageView) {
-        Glide.with(context)
-                .load(imageUrl)
-                .centerCrop()
-                .into(imageView);
+        Glide.with(context).load(imageUrl).centerCrop().into(imageView);
     }
 
     private void showPizzaDetailsDialog(Pizza pizza) {
@@ -97,26 +93,24 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.pizza_details);
 
-        TextView pizzaNameDetails = dialog.findViewById(R.id.pizza_name_details);
-        ImageView pizzaImageDetails = dialog.findViewById(R.id.pizza_image_details);
-        TextView pizzaCompositionDetails = dialog.findViewById(R.id.pizza_composition_details);
-        TextView pizzaVenuePriceDetails = dialog.findViewById(R.id.pizza_venue_price_details);
-        ImageButton closeDetails = dialog.findViewById(R.id.close_details);
+        TextView pizzaTitleDetails = dialog.findViewById(R.id.titleText);
+        ImageView pizzaPicDetails = dialog.findViewById(R.id.picFood);
+        TextView pizzaDescriptionDetails = dialog.findViewById(R.id.descriptionTxt);
+        TextView pizzaFeeDetails = dialog.findViewById(R.id.feeTxt);
+        ImageButton closeDetails = dialog.findViewById(R.id.crest);
 
-        pizzaNameDetails.setText(pizza.getPizzaName());
-        loadImageIntoImageView(mContext, pizza.getPizzaImageUrl(), pizzaImageDetails);
-        pizzaCompositionDetails.setText(pizza.pizzaDescription());
-        pizzaVenuePriceDetails.setText(pizza.getPizzaPrise());
+        pizzaTitleDetails.setText(pizza.getTitle());
+        loadImageIntoImageView(mContext, pizza.getPic(), pizzaPicDetails);
+        pizzaDescriptionDetails.setText(pizza.getDesciption());
+        pizzaFeeDetails.setText(pizza.getFee());
 
+        // удаление окошка
         closeDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
-
         dialog.show();
     }
-
-
 }

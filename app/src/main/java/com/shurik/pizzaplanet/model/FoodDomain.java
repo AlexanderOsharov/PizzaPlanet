@@ -1,4 +1,4 @@
-package com.shurik.pizzaplanet.domain;
+package com.shurik.pizzaplanet.model;
 
 public class FoodDomain {
     private String title;
@@ -62,3 +62,4 @@ public class FoodDomain {
         this.numberInCart = numberInCart;
     }
 }
+

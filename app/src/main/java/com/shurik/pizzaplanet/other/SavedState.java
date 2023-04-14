@@ -1,0 +1,1 @@
+package com.shurik.pizzaplanet.other;

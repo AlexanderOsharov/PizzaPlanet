@@ -3,7 +3,6 @@ package com.shurik.pizzaplanet.fragments;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.viewmodel.CreationExtras;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,37 +11,41 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.shurik.pizzaplanet.Constants;
-import com.shurik.pizzaplanet.MainActivity;
+import com.shurik.pizzaplanet.R;
+import com.shurik.pizzaplanet.adapters.NewsAdapter;
 import com.shurik.pizzaplanet.databinding.FragmentCustomerBinding;
 import com.shurik.pizzaplanet.fragments.geolocation.Geolocation;
-import com.shurik.pizzaplanet.pizzasearch.Organization;
-import com.shurik.pizzaplanet.pizzasearch.OrganizationAdapter;
-import com.shurik.pizzaplanet.pizzasearch.Pizza;
-import com.shurik.pizzaplanet.pizzasearch.PizzaAdapter;
-import com.shurik.pizzaplanet.pizzasearch.PizzaVenue;
+import com.shurik.pizzaplanet.model.New;
+import com.shurik.pizzaplanet.model.Organization;
+import com.shurik.pizzaplanet.adapters.OrganizationAdapter;
+import com.shurik.pizzaplanet.model.Pizza;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
 public class CustomerFragment extends Fragment {
 
+    // binding
     private FragmentCustomerBinding binding;
+
+    // recylerView для организаций
     private RecyclerView recyclerViewOrganization;
+
+    // адаптер для организаций
     private OrganizationAdapter organizationAdapter;
-    private List<Organization> organizationList = new ArrayList<>();;
-    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+
+    // список организаций
+    private ArrayList<Organization> organizationList = new ArrayList<>();
+
+    // список новостей
+    private final ArrayList<New> news = new ArrayList<>();
+
+    // адаптер для новостей
+    private NewsAdapter newsAdapter;
+
+    // layoutManager
+    private LinearLayoutManager layoutManager;
 
     Geolocation geolocation;
 
@@ -52,15 +55,27 @@ public class CustomerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // инициализация binding - а
         binding = FragmentCustomerBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
+        // напполняем список новостей
+        setInitialData();
+
+        // инициализируем адаптер
+        newsAdapter = new NewsAdapter(news);
+
+        // ставим адаптер viewPager
+        binding.viewPager2.setAdapter(newsAdapter);
+
+        // устанавливаем layoutManager recyclerViewOrganization
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewOrganization = binding.organizationRecyclerview;
         recyclerViewOrganization.setLayoutManager(layoutManager);
 
         geolocation = new Geolocation(getActivity());
 
+        // возвращаем представление фрагмента (view)
         return view;
     }
 
@@ -91,6 +106,38 @@ public class CustomerFragment extends Fragment {
 
         organizationAdapter = new OrganizationAdapter(getContext(), pizzaVenuesList, location.getLatitude(), location.getLongitude());
         recyclerViewOrganization.setAdapter(organizationAdapter);
+    }
+
+    private void setInitialData() {
+        /**
+         * Здес мы напполняем список новостей
+         */
+        news.add(new New(
+                "2 пиццы",
+                R.drawable.pizza_ham,
+                R.drawable.pizza_icon_1,
+                "Скидка 30%"
+        ));
+        news.add(new New(
+                "Мяснйо комбо",
+                R.drawable.pizza_ham,
+                R.drawable.pizza_icon_2,
+                "Напиток в подарок!"));
+        news.add(new New(
+                "2 пиццы",
+                R.drawable.pizza_ham,
+                R.drawable.pizza_icon_3,
+                " Скидка 30%"));
+        news.add(new New(
+                "2 пиццы",
+                R.drawable.pizza_ham,
+                R.drawable.pizza_icon_4,
+                " Скидка 30%"));
+        news.add(new New(
+                "2 пиццы",
+                R.drawable.pizza_ham,
+                R.drawable.pizza_icon_5,
+                ""));
     }
 
 }

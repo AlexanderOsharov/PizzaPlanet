@@ -1,4 +1,4 @@
-package com.shurik.pizzaplanet.pizzasearch;
+package com.shurik.pizzaplanet.model;
 
 import java.util.ArrayList;
 import java.util.List;

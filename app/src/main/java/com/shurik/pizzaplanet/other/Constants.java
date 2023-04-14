@@ -1,4 +1,4 @@
-package com.shurik.pizzaplanet;
+package com.shurik.pizzaplanet.other;
 
 public class Constants {
     public static final String FOURSQUARE_API = "fsq3ViJD4B1N5wGhUKpBqHxwyqZz3tzVZXsA50pdiNYsk60=";

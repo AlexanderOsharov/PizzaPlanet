@@ -1,4 +1,4 @@
-package com.shurik.pizzaplanet;
+package com.shurik.pizzaplanet.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.shurik.pizzaplanet.other.Constants;
+import com.shurik.pizzaplanet.R;
 import com.shurik.pizzaplanet.fragments.SupplierFragment;
 import com.shurik.pizzaplanet.fragments.CustomerFragment;
 import com.shurik.pizzaplanet.fragments.BasketFragment;
@@ -89,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         }
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

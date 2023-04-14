@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.TransportInfo;
+import android.net.ipsec.ike.TransportModeChildSessionParams;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +34,7 @@ import com.yandex.mapkit.directions.driving.DrivingRouter;
 import com.yandex.mapkit.directions.driving.DrivingSession;
 import com.yandex.mapkit.directions.driving.VehicleOptions;
 import com.yandex.mapkit.geometry.Point;
+import com.yandex.mapkit.geometry.Polyline;
 import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.map.MapObjectCollection;
 import com.yandex.mapkit.map.PlacemarkMapObject;
@@ -42,7 +45,10 @@ import com.yandex.mapkit.transport.masstransit.MasstransitRouter;
 import com.yandex.mapkit.transport.masstransit.PedestrianRouter;
 import com.yandex.mapkit.transport.masstransit.Route;
 import com.yandex.mapkit.transport.masstransit.Section;
+import com.yandex.mapkit.transport.masstransit.SectionMetadata;
 import com.yandex.mapkit.transport.masstransit.Session;
+import com.yandex.mapkit.transport.masstransit.SummarySession;
+import com.yandex.mapkit.transport.masstransit.TimeOptions;
 import com.yandex.mapkit.transport.masstransit.Transport;
 import com.yandex.runtime.Error;
 import com.yandex.runtime.image.ImageProvider;
@@ -69,7 +75,7 @@ public class MapDialogFragment extends DialogFragment implements Session.RouteLi
     private DrivingRouter drivingRouter;
     private DrivingSession drivingSession;
 
-
+    private int[] routeColors = {Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW, Color.MAGENTA, Color.CYAN};
 
     // Вызовите этот метод, чтобы создать новый экземпляр диалогового окна с требуемыми точками
     public static MapDialogFragment newInstance(Point currentPoint, Point destinationPoint) {
@@ -167,12 +173,20 @@ public class MapDialogFragment extends DialogFragment implements Session.RouteLi
         }
     }
 
+    int colorIndex = 0; // начинаем с первого цвета
     @Override
     public void onDrivingRoutes(@NonNull List<DrivingRoute> list) {
         for (DrivingRoute route : list) {
-            mapObjects.addPolyline(route.getGeometry());
+            // установка цвета линии
+            PolylineMapObject polyline = mapObjects.addPolyline(route.getGeometry());
+            polyline.setStrokeColor(routeColors[colorIndex]);
+            colorIndex++; // переход к следующему цвету
+            if (colorIndex >= routeColors.length) {
+                colorIndex = 0; // обнуление счетчика
+            }
         }
     }
+
 
     @Override
     public void onDrivingRoutesError(@NonNull Error error) {
@@ -189,6 +203,7 @@ public class MapDialogFragment extends DialogFragment implements Session.RouteLi
         requestPoints.add(new RequestPoint(destinationPoint, RequestPointType.WAYPOINT, null));
         drivingSession = drivingRouter.requestRoutes(requestPoints, drivingOptions, vehicleOptions, this);
     }
+
 }
 
 

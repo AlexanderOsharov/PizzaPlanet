@@ -41,10 +41,10 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Pizza pizzaVenue = mPizzaVenues.get(position);
 
-        holder.pizzaVenuePrice.setText(pizzaVenue.getPrice());
-        loadImageIntoImageView(mContext, pizzaVenue.getImageUrl(), holder.pizzaImage);
+        holder.pizzaVenuePrice.setText(pizzaVenue.getPizzaPrise());
+        loadImageIntoImageView(mContext, pizzaVenue.getPizzaImageUrl(), holder.pizzaImage);
         holder.pizzaName.setText(pizzaVenue.getPizzaName());
-        holder.pizzaComposition.setText(pizzaVenue.getPizzaComposition());
+        holder.pizzaComposition.setText(pizzaVenue.pizzaDescription());
 
         // Действие при нажатии добавление в корзину
         holder.basketButton.setOnClickListener(new View.OnClickListener() {
@@ -104,9 +104,9 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         ImageButton closeDetails = dialog.findViewById(R.id.close_details);
 
         pizzaNameDetails.setText(pizza.getPizzaName());
-        loadImageIntoImageView(mContext, pizza.getImageUrl(), pizzaImageDetails);
-        pizzaCompositionDetails.setText(pizza.getPizzaComposition());
-        pizzaVenuePriceDetails.setText(pizza.getPrice());
+        loadImageIntoImageView(mContext, pizza.getPizzaImageUrl(), pizzaImageDetails);
+        pizzaCompositionDetails.setText(pizza.pizzaDescription());
+        pizzaVenuePriceDetails.setText(pizza.getPizzaPrise());
 
         closeDetails.setOnClickListener(new View.OnClickListener() {
             @Override

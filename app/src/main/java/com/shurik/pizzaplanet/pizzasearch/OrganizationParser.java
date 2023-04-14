@@ -13,10 +13,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class OrganizationParser {
-
-    // TODO: Добавить в передаваемые параметры текующее местоположение
-    public ArrayList<Organization> getOrganizations() throws IOException {
-
+    // Метод для получения ближайших организаций
+    public static ArrayList<Organization> getOrganizations() throws IOException {
         ArrayList<Organization> organizations = new ArrayList<>();
 
         // Запрос

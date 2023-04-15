@@ -8,12 +8,19 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.shurik.pizzaplanet.model.Pizza;
 import com.shurik.pizzaplanet.other.Constants;
 import com.shurik.pizzaplanet.R;
 import com.shurik.pizzaplanet.fragments.SupplierFragment;
@@ -56,7 +63,10 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new CustomerFragment();
                     break;
                 case R.id.nav_supplier_fragment:
-                    selectedFragment = new SupplierFragment();
+                    if (SupplierFragment.isSupplier) selectedFragment = new SupplierFragment();
+                    else {
+                        selectedFragment = new SupplierFragment();
+                    }
                     break;
                 case R.id.nav_basket_fragment:
                     selectedFragment = new BasketFragment();
@@ -101,5 +111,30 @@ public class MainActivity extends AppCompatActivity {
                 Location location = geolocation.getUserLocation();
             }
         }
+    }
+
+    private void showPizzaDetailsDialog(Pizza pizza) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.pizza_details);
+
+        TextView pizzaTitleDetails = dialog.findViewById(R.id.titleText);
+        ImageView pizzaPicDetails = dialog.findViewById(R.id.picFood);
+        TextView pizzaDescriptionDetails = dialog.findViewById(R.id.descriptionTxt);
+        TextView pizzaFeeDetails = dialog.findViewById(R.id.feeTxt);
+        ImageButton closeDetails = dialog.findViewById(R.id.crest);
+
+        pizzaTitleDetails.setText(pizza.getTitle());
+        pizzaDescriptionDetails.setText(pizza.getDesciption());
+        pizzaFeeDetails.setText(pizza.getFee());
+
+        // удаление окошка
+        closeDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }

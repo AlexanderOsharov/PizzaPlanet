@@ -10,6 +10,8 @@ import com.shurik.pizzaplanet.R;
 
 public class SupplierFragment extends Fragment {
 
+    public static boolean isSupplier = false;
+
     public SupplierFragment() {
         // Required empty public constructor
     }

@@ -4,5 +4,5 @@
     android:id="@+id/img"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_ecr"
+    android:background="@drawable/logo"
     tools:context=".activities.IntroductoryActivity" />

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -82,7 +83,9 @@ public class CustomerFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+//        Location location = geolocation.getUserLocation();
+//        ArrayList<Organization> organizationList = OrganizationParser.getOrganizations(location);
+//        updateUIWithPizzaVenues(organizationList);
 
         new Thread(() -> {
             Location location = geolocation.getUserLocation();
@@ -93,7 +96,7 @@ public class CustomerFragment extends Fragment {
                 throw new RuntimeException(e);
             }
         }).start();
-
+        
 //        ArrayList<Organization> organizationList = new ArrayList<>();
 //        ArrayList<Pizza> pizzaArrayList = new ArrayList<>();
 //        pizzaArrayList.add(new Pizza("Маргаритта", "сыр с помидорчиками", "https://e0.edimdoma.ru/data/posts/0002/1429/21429-ed4_wide.jpg?1631194036","360"));

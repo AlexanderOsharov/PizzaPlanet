@@ -44,6 +44,9 @@ dependencies {
     // mapKit
     implementation 'com.yandex.android:maps.mobile:4.3.1-full'
 
+    // Для работы с потоками
+    implementation 'androidx.work:work-runtime:2.8.1'
+
     // Glide для отображения изображений
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'

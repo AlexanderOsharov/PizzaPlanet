@@ -25,7 +25,7 @@ public class BasketFragment extends Fragment {
     private FragmentBasketBinding binding;
     private RecyclerView recyclerView;
 
-    private BasketAdapter basketAdapter;
+    public static BasketAdapter basketAdapter;
     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
 
     @Override

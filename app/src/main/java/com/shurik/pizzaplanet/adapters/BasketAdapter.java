@@ -87,4 +87,14 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
             }
         }
     }
+
+    public void addPizza(Pizza pizza) {
+        pizzaList.add(pizza);
+        notifyItemInserted(pizzaList.indexOf(pizza));
+    }
+
+    public void removePizza(int position) {
+        pizzaList.remove(position);
+        notifyItemRemoved(position);
+    }
 }

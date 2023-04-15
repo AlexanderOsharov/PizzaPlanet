@@ -15,13 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.shurik.pizzaplanet.R;
+import com.shurik.pizzaplanet.fragments.BasketFragment;
 import com.shurik.pizzaplanet.model.Pizza;
 
 import java.util.List;
 
 public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> {
 
-    private List<Pizza> mPizzaVenues;
+    private static List<Pizza> mPizzaVenues;
     private Context mContext;
 
     public PizzaAdapter(Context context, List<Pizza> pizzaVenues) {
@@ -59,6 +60,35 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
                 showPizzaDetailsDialog(pizzaVenue);
             }
         });
+
+        // Изменение счетчика
+        holder.plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int qty1 = Integer.parseInt(holder.quantity.getText().toString());
+                qty1++;
+                holder.quantity.setText(String.valueOf(qty1));
+            }
+        });
+
+        holder.minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int qty = Integer.parseInt(holder.quantity.getText().toString());
+                if (qty > 1) {
+                    qty--;
+                    holder.quantity.setText(String.valueOf(qty));
+                }
+            }
+        });
+
+        // Действие при нажатии на корзинку
+        holder.basketButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BasketFragment.basketAdapter.addPizza(pizzaVenue);
+            }
+        });
     }
 
     // кол - во пицц
@@ -73,6 +103,9 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         public ImageView pizzaPic;
         public TextView pizzaTitle;
         public ImageButton basketButton;
+        public ImageView plus;
+        public TextView quantity;
+        public ImageView minus;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -80,6 +113,9 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
             pizzaPic = itemView.findViewById(R.id.pic);
             pizzaTitle = itemView.findViewById(R.id.title);
             basketButton = itemView.findViewById(R.id.addBtn);
+            minus = itemView.findViewById(R.id.minus);
+            quantity = itemView.findViewById(R.id.numberOrderTxt);
+            plus = itemView.findViewById(R.id.plus);
         }
     }
 
@@ -98,6 +134,8 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         TextView pizzaDescriptionDetails = dialog.findViewById(R.id.descriptionTxt);
         TextView pizzaFeeDetails = dialog.findViewById(R.id.feeTxt);
         ImageButton closeDetails = dialog.findViewById(R.id.crest);
+        ImageView plus = dialog.findViewById(R.id.plus);
+        TextView qnt = dialog.findViewById(R.id.numberOrderTxt);
 
         pizzaTitleDetails.setText(pizza.getTitle());
         loadImageIntoImageView(mContext, pizza.getPic(), pizzaPicDetails);
@@ -111,6 +149,26 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
                 dialog.dismiss();
             }
         });
+
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int qty1 = Integer.parseInt(qnt.getText().toString());
+                qty1++;
+                qnt.setText(String.valueOf(qty1));
+
+            }
+        });
         dialog.show();
+    }
+
+    public void addPizza(Pizza pizza) {
+        mPizzaVenues.add(pizza);
+        notifyItemInserted(mPizzaVenues.indexOf(pizza));
+    }
+
+    public void removePizza(int position) {
+        mPizzaVenues.remove(position);
+        notifyItemRemoved(position);
     }
 }

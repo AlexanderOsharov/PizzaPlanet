@@ -41,8 +41,8 @@ public class OrganizationParser {
 
             JsonObject geometry = (JsonObject) item.getAsJsonObject().get("geometry");
             JsonArray coordinates = (JsonArray) geometry.get("coordinates");
-            String latitude = String.valueOf(coordinates.get(0));
-            String longitude = String.valueOf(coordinates.get(1));
+            String latitude = String.valueOf(coordinates.get(1));
+            String longitude = String.valueOf(coordinates.get(0));
 
             ArrayList<Pizza> pizzas = PizzaParser.getPizzas(id);
 

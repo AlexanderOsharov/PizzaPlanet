@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -82,33 +83,37 @@ public class CustomerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-        //823622
 //        Location location = geolocation.getUserLocation();
-//        try {
-//            ArrayList<Organization> organizationList = OrganizationParser.getOrganizations(location);
-//            updateUIWithPizzaVenues(organizationList);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+//        ArrayList<Organization> organizationList = OrganizationParser.getOrganizations(location);
+//        updateUIWithPizzaVenues(organizationList);
 
-        ArrayList<Organization> organizationList = new ArrayList<>();
-        ArrayList<Pizza> pizzaArrayList = new ArrayList<>();
-        pizzaArrayList.add(new Pizza("Маргаритта", "сыр с помидорчиками", "https://e0.edimdoma.ru/data/posts/0002/1429/21429-ed4_wide.jpg?1631194036","360"));
-        pizzaArrayList.add(new Pizza("Боржоми", "сыр с огурчиками", "https://www.edimdoma.ru/system/images/contents/0001/3568/wide/85419-original.jpg?1628278420","800"));
+        new Thread(() -> {
+            Location location = geolocation.getUserLocation();
+            try {
+                ArrayList<Organization> organizationList = OrganizationParser.getOrganizations(location);
+                getActivity().runOnUiThread(() -> updateUIWithPizzaVenues(organizationList));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
 
-        Organization organization = new Organization("Шикарная ул., дом 9, Москва", "PizzaPlanet", "1", pizzaArrayList, "55.996596", "37.220086");
-
-        ArrayList<Pizza> pizzaArrayList_2 = new ArrayList<>();
-        pizzaArrayList_2.add(new Pizza("1", "0000 u 1111", "https://e0.edimdoma.ru/data/posts/0002/1429/21429-ed4_wide.jpg?1631194036","500"));
-        pizzaArrayList_2.add(new Pizza("2", "0110", "https://www.edimdoma.ru/system/images/contents/0001/3568/wide/85419-original.jpg?1628278420","200"));
-
-        Organization organization_2 = new Organization("Замечательная ул., дом 13, Москва", "PizzaPlanet", "1", pizzaArrayList_2, "55.996596", "37.220086");
-
-        organizationList.add(organization);
-        organizationList.add(organization_2);
-
-        updateUIWithPizzaVenues(organizationList);
+//        ArrayList<Organization> organizationList = new ArrayList<>();
+//        ArrayList<Pizza> pizzaArrayList = new ArrayList<>();
+//        pizzaArrayList.add(new Pizza("Маргаритта", "сыр с помидорчиками", "https://e0.edimdoma.ru/data/posts/0002/1429/21429-ed4_wide.jpg?1631194036","360"));
+//        pizzaArrayList.add(new Pizza("Боржоми", "сыр с огурчиками", "https://www.edimdoma.ru/system/images/contents/0001/3568/wide/85419-original.jpg?1628278420","800"));
+//
+//        Organization organization = new Organization("Шикарная ул., дом 9, Москва", "PizzaPlanet", "1", pizzaArrayList, "55.996596", "37.220086");
+//
+//        ArrayList<Pizza> pizzaArrayList_2 = new ArrayList<>();
+//        pizzaArrayList_2.add(new Pizza("1", "0000 u 1111", "https://e0.edimdoma.ru/data/posts/0002/1429/21429-ed4_wide.jpg?1631194036","500"));
+//        pizzaArrayList_2.add(new Pizza("2", "0110", "https://www.edimdoma.ru/system/images/contents/0001/3568/wide/85419-original.jpg?1628278420","200"));
+//
+//        Organization organization_2 = new Organization("Замечательная ул., дом 13, Москва", "PizzaPlanet", "1", pizzaArrayList_2, "55.996596", "37.220086");
+//
+//        organizationList.add(organization);
+//        organizationList.add(organization_2);
+//
+//        updateUIWithPizzaVenues(organizationList);
     }
 
     private void updateUIWithPizzaVenues(List<Organization> pizzaVenuesList) {

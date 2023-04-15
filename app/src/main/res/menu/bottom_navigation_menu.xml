@@ -13,7 +13,7 @@
         android:title="@string/basket" />
     <item
         android:id="@+id/user_fragment"
-        android:icon="@drawable/user"
+        android:icon="@drawable/ic_person"
         android:title="@string/profile" />
     <item
         android:id="@+id/nav_user_settings_fragment"

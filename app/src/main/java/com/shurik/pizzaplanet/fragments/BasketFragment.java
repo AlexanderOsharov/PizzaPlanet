@@ -15,12 +15,10 @@ import android.view.ViewGroup;
 
 import com.shurik.pizzaplanet.adapters.BasketAdapter;
 import com.shurik.pizzaplanet.databinding.FragmentBasketBinding;
-import com.shurik.pizzaplanet.model.Pizza;
 import com.shurik.pizzaplanet.product_database.PizzaDAO;
-import com.shurik.pizzaplanet.product_database.PizzaDatabaseApplication;
+import com.shurik.pizzaplanet.product_database.PizzaDatabase;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class BasketFragment extends Fragment {
 
@@ -30,7 +28,8 @@ public class BasketFragment extends Fragment {
     public static BasketAdapter basketAdapter;
     LinearLayoutManager layoutManager;
 
-    private PizzaDAO pizzaDAO  = PizzaDatabaseApplication.getPizzaDatabase().pizzaDAO();
+    private PizzaDatabase database;
+    private PizzaDAO pizzaDao;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,6 +41,9 @@ public class BasketFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), layoutManager.getOrientation()));
         recyclerView.setLayoutManager(layoutManager);
 
+//        PizzaEntity pizzaEntity = new PizzaEntity("Url", "Title", 0, 0);
+//        pizzaDAO.save(pizzaEntity);
+
         // Initialize basketAdapter with an empty list of pizzas
         basketAdapter = new BasketAdapter(new ArrayList<>());
         recyclerView.setAdapter(basketAdapter);
@@ -52,5 +54,11 @@ public class BasketFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Создать и получить доступ к базе данных
+        database = PizzaDatabase.getInstance(getActivity());
+
+        // Получить доступ к Dao
+        pizzaDao = database.pizzaDao();
     }
 }

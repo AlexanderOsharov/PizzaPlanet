@@ -1,78 +1,75 @@
 package com.shurik.pizzaplanet.product_database;
 
-import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import org.jetbrains.annotations.NotNull;
-
-@Entity(tableName = "Pizza")
-public class PizzaEntity { // класс нашего пользователя
+@Entity(tableName = "pizza")
+public class PizzaEntity {
 
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    private int id;
 
-    @ColumnInfo(name = "picProductUrl")
-    @NotNull
-    public String picProductUrl;
+    // название пиццы
+    private String title;
 
-    @ColumnInfo(name = "pizzaTitle")
-    @NotNull
-    public String pizzaTitle;
+    // описание
+    private String desciption;
 
-    @ColumnInfo(name = "pizzaPrice")
-    public int pizzaPrice;
+    // изображение
+    private String pic;
 
-    @ColumnInfo(name = "pizzaCount")
-    public int pizzaCount;
+    // цена
+    private String fee;
 
-    public void setId(int id) {
-        this.id = id;
+    // количество
+    private int quantity = 1;
+
+    public String getTitle() {
+        return title;
     }
 
-    public void setPicProductUrl(@NotNull String picProductUrl) {
-        this.picProductUrl = picProductUrl;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setPizzaTitle(@NotNull String pizzaTitle) {
-        this.pizzaTitle = pizzaTitle;
+    public String getDesciption() {
+        return desciption;
     }
 
-    public void setPizzaPrice(int pizzaPrice) {
-        this.pizzaPrice = pizzaPrice;
+    public void setDesciption(String desciption) {
+        this.desciption = desciption;
     }
 
-    public void setPizzaCount(int pizzaCount) {
-        this.pizzaCount = pizzaCount;
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
+
+    public String getFee() {
+        return fee;
+    }
+
+    public void setFee(String fee) {
+        this.fee = fee;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public int getId() {
         return id;
     }
 
-    @NotNull
-    public String getPicProductUrl() {
-        return picProductUrl;
-    }
-
-    @NotNull
-    public String getPizzaTitle() {
-        return pizzaTitle;
-    }
-
-    public int getPizzaPrice() {
-        return pizzaPrice;
-    }
-
-    public int getPizzaCount() {
-        return pizzaCount;
-    }
-
-    public PizzaEntity(@NonNull String picProductUrl, @NonNull String pizzaTitle, int pizzaPrice, int pizzaCount) {
-        this.picProductUrl = picProductUrl;
-        this.pizzaTitle = pizzaTitle;
-        this.pizzaPrice = pizzaPrice;
-        this.pizzaCount = pizzaCount;
+    public void setId(int id) {
+        this.id = id;
     }
 }
+

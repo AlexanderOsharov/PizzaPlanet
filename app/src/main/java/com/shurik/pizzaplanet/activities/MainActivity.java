@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.pm.PackageManager;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Запрос на разрешение полученя данных о текущем местоположении
-        ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
 
         // Инициализация Yandex-MapKit
         MapKitFactory.setApiKey(Constants.YANDEX_MapKitSDK);
@@ -54,43 +55,70 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        loadFragment(new SupplierFragment());
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            Fragment selectedFragment;
 
-            switch (item.getItemId()) {
-                case R.id.nav_customer_fragment:
-                    selectedFragment = new CustomerFragment();
-                    break;
-                case R.id.nav_supplier_fragment:
-                    if (SupplierFragment.isSupplier) selectedFragment = new SupplierFragment();
-                    else {
-                        selectedFragment = new SupplierFragment();
-                    }
-                    break;
-                case R.id.nav_basket_fragment:
-                    selectedFragment = new BasketFragment();
-                    break;
-                case R.id.nav_user_settings_fragment:
-                    selectedFragment = new UserSettingsFragment();
-                    break;
-                case R.id.user_fragment:
-                    selectedFragment = new UserFragment();
-                    break;
-                default:
-                    selectedFragment = new SupplierFragment();
-                    break;
-            }
-            loadFragment(selectedFragment);
+        // Создание всех фрагментов только один раз
+        CustomerFragment customerFragment = new CustomerFragment();
+        SupplierFragment supplierFragment = new SupplierFragment();
+        BasketFragment basketFragment = new BasketFragment();
+        UserSettingsFragment userSettingsFragment = new UserSettingsFragment();
+        UserFragment userFragment = new UserFragment();
+
+        // Добавление всех фрагментов в транзакцию первоначального добавления
+        loadInitialFragments(customerFragment, supplierFragment, basketFragment, userSettingsFragment, userFragment);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switchFragments(item.getItemId(), customerFragment, supplierFragment, basketFragment, userSettingsFragment, userFragment);
             return true;
         });
     }
 
-    private void loadFragment(Fragment fragment) {
+    private void loadInitialFragments(Fragment... fragments) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
+
+        for (Fragment fragment : fragments) {
+            transaction.add(R.id.fragment_container, fragment);
+            transaction.hide(fragment);
+        }
+
+        transaction.show(fragments[0]); // Показать первый фрагмент
         transaction.commit();
     }
+
+    private void switchFragments(int menuItemId, CustomerFragment customerFragment, SupplierFragment supplierFragment, BasketFragment basketFragment, UserSettingsFragment userSettingsFragment, UserFragment userFragment) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        // Сначала скрываем все фрагменты
+        transaction.hide(customerFragment);
+        transaction.hide(supplierFragment);
+        transaction.hide(basketFragment);
+        transaction.hide(userSettingsFragment);
+        transaction.hide(userFragment);
+
+        // Затем показываем тот, который соответствует выбранному элементу меню
+        switch (menuItemId) {
+            case R.id.nav_customer_fragment:
+                transaction.show(customerFragment);
+                break;
+            case R.id.nav_supplier_fragment:
+                transaction.show(supplierFragment);
+                break;
+            case R.id.nav_basket_fragment:
+                transaction.show(basketFragment);
+                break;
+            case R.id.nav_user_settings_fragment:
+                transaction.show(userSettingsFragment);
+                break;
+            case R.id.user_fragment:
+                transaction.show(userFragment);
+                break;
+            default:
+                transaction.show(customerFragment);
+                break;
+        }
+
+        transaction.commit();
+    }
+
 
     @Override
     public void onBackPressed() {

@@ -45,11 +45,11 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         loadImageIntoImageView(mContext, pizzaVenue.getPic(), holder.pizzaPic);
         holder.pizzaTitle.setText(pizzaVenue.getTitle());
 
-        // Действие при нажатии добавление в корзину
+        // Действие при нажатии на корзину
         holder.basketButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO прописать функционал добавления в корзину
+                BasketFragment.basketAdapter.addPizza(pizzaVenue);
             }
         });
 
@@ -57,7 +57,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         holder.pizzaPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPizzaDetailsDialog(pizzaVenue);
+                showPizzaDetailsDialog(pizzaVenue, holder);
             }
         });
 
@@ -79,14 +79,6 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
                     qty--;
                     holder.quantity.setText(String.valueOf(qty));
                 }
-            }
-        });
-
-        // Действие при нажатии на корзинку
-        holder.basketButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BasketFragment.basketAdapter.addPizza(pizzaVenue);
             }
         });
     }
@@ -124,7 +116,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         Glide.with(context).load(imageUrl).centerCrop().into(imageView);
     }
 
-    private void showPizzaDetailsDialog(Pizza pizza) {
+    private void showPizzaDetailsDialog(Pizza pizza, ViewHolder holder) {
         final Dialog dialog = new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.pizza_details);
@@ -136,11 +128,13 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         ImageButton closeDetails = dialog.findViewById(R.id.crest);
         ImageView plus = dialog.findViewById(R.id.plus);
         TextView qnt = dialog.findViewById(R.id.numberOrderTxt);
+        ImageView minus = dialog.requireViewById(R.id.minus);
 
-        pizzaTitleDetails.setText(pizza.getTitle());
+        pizzaTitleDetails.setText(holder.pizzaTitle.getText());
         loadImageIntoImageView(mContext, pizza.getPic(), pizzaPicDetails);
         pizzaDescriptionDetails.setText(pizza.getDesciption());
         pizzaFeeDetails.setText(pizza.getFee());
+        qnt.setText(holder.quantity.getText());
 
         // удаление окошка
         closeDetails.setOnClickListener(new View.OnClickListener() {
@@ -156,9 +150,24 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
                 int qty1 = Integer.parseInt(qnt.getText().toString());
                 qty1++;
                 qnt.setText(String.valueOf(qty1));
-
+                holder.quantity.setText(String.valueOf(qty1));
+                pizza.setQuantity(qty1);
             }
         });
+
+        minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int qty = Integer.parseInt(holder.quantity.getText().toString());
+                if (qty > 1) {
+                    qty--;
+                    qnt.setText(String.valueOf(qty));
+                    holder.quantity.setText(String.valueOf(qty));
+                    pizza.setQuantity(qty);
+                }
+            }
+        });
+
         dialog.show();
     }
 

@@ -96,7 +96,7 @@ public class CustomerFragment extends Fragment {
                 throw new RuntimeException(e);
             }
         }).start();
-        
+
 //        ArrayList<Organization> organizationList = new ArrayList<>();
 //        ArrayList<Pizza> pizzaArrayList = new ArrayList<>();
 //        pizzaArrayList.add(new Pizza("Маргаритта", "сыр с помидорчиками", "https://e0.edimdoma.ru/data/posts/0002/1429/21429-ed4_wide.jpg?1631194036","360"));

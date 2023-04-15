@@ -35,6 +35,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
         Pizza pizza = pizzaList.get(position);
         holder.pizzaTitle.setText(pizza.getTitle());
         holder.price.setText(pizza.getFee());
+        holder.quantity.setText(String.valueOf(pizza.getQuantity()));
         Glide.with(holder.pizzaImage.getContext())
                 .load(pizza.getPic())
                 .into(holder.pizzaImage);

@@ -21,6 +21,17 @@ public class Pizza {
     // цена
     private String fee;
 
+    // количество
+    private int quantity = 1;
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public Pizza(String title, String desciption, String pic, String fee) {
         this.title = title;
         this.desciption = desciption;

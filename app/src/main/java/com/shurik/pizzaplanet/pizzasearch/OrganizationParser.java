@@ -40,7 +40,7 @@ public class OrganizationParser {
             String id = String.valueOf(companyMetaData.get("id")).replace("\"", "");
 
             JsonObject geometry = (JsonObject) item.getAsJsonObject().get("geometry");
-            JsonArray coordinates = geometry.getAsJsonArray("geometry");
+            JsonArray coordinates = (JsonArray) geometry.get("coordinates");
             String latitude = String.valueOf(coordinates.get(0));
             String longitude = String.valueOf(coordinates.get(1));
 

@@ -1,5 +1,6 @@
 package com.shurik.pizzaplanet.fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,10 +16,13 @@ import android.view.ViewGroup;
 
 import com.shurik.pizzaplanet.adapters.BasketAdapter;
 import com.shurik.pizzaplanet.databinding.FragmentBasketBinding;
+import com.shurik.pizzaplanet.model.Pizza;
 import com.shurik.pizzaplanet.product_database.PizzaDAO;
 import com.shurik.pizzaplanet.product_database.PizzaDatabase;
+import com.shurik.pizzaplanet.product_database.PizzaEntity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BasketFragment extends Fragment {
 
@@ -31,6 +35,9 @@ public class BasketFragment extends Fragment {
     private PizzaDatabase database;
     private PizzaDAO pizzaDao;
 
+    private List<Pizza> pizzaList = new ArrayList<>();
+    private List<PizzaEntity> pizzaListAdapter = new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,10 +48,7 @@ public class BasketFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), layoutManager.getOrientation()));
         recyclerView.setLayoutManager(layoutManager);
 
-//        PizzaEntity pizzaEntity = new PizzaEntity("Url", "Title", 0, 0);
-//        pizzaDAO.save(pizzaEntity);
-
-        // Initialize basketAdapter with an empty list of pizzas
+        // Инициализация
         basketAdapter = new BasketAdapter(new ArrayList<>());
         recyclerView.setAdapter(basketAdapter);
 
@@ -60,5 +64,25 @@ public class BasketFragment extends Fragment {
 
         // Получить доступ к Dao
         pizzaDao = database.pizzaDao();
+    }
+
+    private class GetPizzasAsyncTask extends AsyncTask<Void, Void, List<PizzaEntity>> {
+        private PizzaDAO pizzaDao;
+
+        public GetPizzasAsyncTask(PizzaDAO pizzaDao) {
+            this.pizzaDao = pizzaDao;
+        }
+
+        @Override
+        protected List<PizzaEntity> doInBackground(Void... voids) {
+            return pizzaDao.getAllPizzas();
+        }
+
+        @Override
+        protected void onPostExecute(List<PizzaEntity> pizzas) {
+            super.onPostExecute(pizzas);
+            // Здесь можно обработать полученный список пицц, например, передать его в адаптер RecyclerView
+            // pizzaListAdapter.submitList(pizzas);
+        }
     }
 }

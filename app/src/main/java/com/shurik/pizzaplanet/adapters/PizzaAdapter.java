@@ -48,9 +48,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         // Действие при нажатии на корзину
         holder.basketButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                BasketFragment.basketAdapter.addPizza(pizzaVenue);
-            }
+            public void onClick(View v) { BasketFragment.basketAdapter.addPizza(pizzaVenue); }
         });
 
         // Действие при нажатии на картинку
@@ -63,13 +61,14 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
 
         // Изменение счетчика
         holder.plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int qty1 = Integer.parseInt(holder.quantity.getText().toString());
-                qty1++;
-                holder.quantity.setText(String.valueOf(qty1));
-            }
-        });
+          @Override
+          public void onClick(View v) {
+            int qty1 = Integer.parseInt(holder.quantity.getText().toString());
+            qty1++;
+            holder.quantity.setText(String.valueOf(qty1));
+          }
+      });
+
 
         holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override

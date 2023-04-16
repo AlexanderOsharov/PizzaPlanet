@@ -1,8 +1,11 @@
 package com.shurik.pizzaplanet.adapters;
 
+import android.annotation.SuppressLint;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,11 +33,13 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
         return new BasketViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull BasketViewHolder holder, int position) {
         Pizza pizza = pizzaList.get(position);
         holder.pizzaTitle.setText(pizza.getTitle());
-        holder.price.setText(pizza.getFee());
+        int sum = Integer.parseInt(pizza.getFee().replaceAll("\\D+", "")) * pizza.getQuantity();
+        holder.price.setText(String.valueOf(sum) + pizza.getFee().replaceAll("\\d", ""));
         holder.quantity.setText(String.valueOf(pizza.getQuantity()));
         Glide.with(holder.pizzaImage.getContext())
                 .load(pizza.getPic())
@@ -53,6 +58,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
         ImageView minus;
         TextView quantity;
         ImageView plus;
+        ImageButton close;
 
         BasketViewHolder(View view) {
             super(view);
@@ -64,8 +70,11 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
             quantity = view.findViewById(R.id.quantity);
             plus = view.findViewById(R.id.plus);
             plus.setOnClickListener(this);
+            close = view.findViewById(R.id.close);
+            close.setOnClickListener(this);
         }
 
+        @SuppressLint("SetTextI18n")
         @Override
         public void onClick(View v) {
             // get the pizza item at the clicked position
@@ -73,18 +82,49 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
 
             switch (v.getId()) {
                 case R.id.minus:
-                    int qty = Integer.parseInt(quantity.getText().toString());
+                    int qty = 1;
+                    if(!TextUtils.isEmpty(quantity.getText().toString())) {
+                        qty = Integer.parseInt(quantity.getText().toString());
+                    }
+                    int sum = 0;
+                    if (!TextUtils.isEmpty(price.getText().toString())) {
+                        String digitsOnly = price.getText().toString().replaceAll("\\D+", "");
+                        sum = Integer.parseInt(digitsOnly);
+                    }
                     if (qty > 1) {
                         qty--;
+                        String priceString = item.getFee();
+                        String digitsOnly = priceString.replaceAll("\\D+", "");
+                        sum -= Integer.parseInt(digitsOnly);
+
                         quantity.setText(String.valueOf(qty));
+                        price.setText(String.valueOf(sum) + item.getFee().replaceAll("\\d", ""));
                     }
                     break;
 
                 case R.id.plus:
-                    int qty1 = Integer.parseInt(quantity.getText().toString());
+                    int qty1 = 1;
+                    if(!TextUtils.isEmpty(quantity.getText().toString())) {
+                        qty1 = Integer.parseInt(quantity.getText().toString());
+                    }
+                    int sum1 = 0;
+                    if (!TextUtils.isEmpty(price.getText().toString())) {
+                        String digitsOnly1 = price.getText().toString().replaceAll("\\D+", "");
+                        sum1 = Integer.parseInt(digitsOnly1);
+                    }
                     qty1++;
+                    String priceString1 = item.getFee();
+                    String digitsOnly1 = priceString1.replaceAll("\\D+", "");
+                    sum1 += Integer.parseInt(digitsOnly1);
+
                     quantity.setText(String.valueOf(qty1));
+                    price.setText(String.valueOf(sum1) + item.getFee().replaceAll("\\d", ""));
                     break;
+
+                case R.id.close:
+                    removePizza(getAdapterPosition());
+                    break;
+
             }
         }
     }

@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.shurik.pizzaplanet.R;
+import com.shurik.pizzaplanet.fragments.BasketFragment;
 import com.shurik.pizzaplanet.model.Pizza;
+import com.shurik.pizzaplanet.product_database.PizzaEntity;
 
 import java.util.List;
 
@@ -122,6 +124,16 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
                     break;
 
                 case R.id.close:
+                    // Удалить PizzaEntity из базы данных
+                    new Thread(() -> {
+                        PizzaEntity pizzaToDelete = new PizzaEntity();
+                        pizzaToDelete.setDesciption(item.getDescription());
+                        pizzaToDelete.setPic(item.getPic());
+                        pizzaToDelete.setFee(item.getFee());
+                        pizzaToDelete.setQuantity(item.getQuantity());
+                        BasketFragment.pizzaDao.delete(pizzaToDelete);
+                    }).start();
+
                     removePizza(getAdapterPosition());
                     break;
 

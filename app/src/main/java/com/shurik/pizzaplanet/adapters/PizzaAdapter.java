@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.shurik.pizzaplanet.R;
 import com.shurik.pizzaplanet.fragments.BasketFragment;
 import com.shurik.pizzaplanet.model.Pizza;
+import com.shurik.pizzaplanet.product_database.PizzaEntity;
 
 import java.util.List;
 
@@ -60,15 +61,18 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         });
 
         // Изменение счетчика
-        holder.plus.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            int qty1 = Integer.parseInt(holder.quantity.getText().toString());
-            qty1++;
-            holder.quantity.setText(String.valueOf(qty1));
-          }
-      });
+//        holder.plus.setOnClickListener(new View.OnClickListener() {
+//          @Override
+//          public void onClick(View v) {
+//            int qty1 = Integer.parseInt(holder.quantity.getText().toString());
+//            qty1++;
+//            holder.quantity.setText(String.valueOf(qty1));
+//          }
+//      });
 
+        holder.plus.setOnClickListener(v -> {
+            addItemToBasketAdapter(pizzaVenue);
+        });
 
         holder.minus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +135,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
 
         pizzaTitleDetails.setText(holder.pizzaTitle.getText());
         loadImageIntoImageView(mContext, pizza.getPic(), pizzaPicDetails);
-        pizzaDescriptionDetails.setText(pizza.getDesciption());
+        pizzaDescriptionDetails.setText(pizza.getDescription());
         pizzaFeeDetails.setText(pizza.getFee());
         qnt.setText(holder.quantity.getText());
 
@@ -179,4 +183,21 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         mPizzaVenues.remove(position);
         notifyItemRemoved(position);
     }
+
+    private void addItemToBasketAdapter(Pizza pizza) {
+        // Преобразовать объект Pizza в PizzaEntity объект
+        PizzaEntity pizzaEntity = new PizzaEntity();
+        pizzaEntity.setTitle(pizza.getTitle());
+        pizzaEntity.setDesciption(pizza.getDescription());
+        pizzaEntity.setPic(pizza.getPic());
+        pizzaEntity.setFee(pizza.getFee());
+        pizzaEntity.setQuantity(pizza.getQuantity());
+
+        // Добавить PizzaEntity в базу данных
+        new Thread(() -> BasketFragment.pizzaDao.insert(pizzaEntity)).start();
+
+        // Добавить Pizza в адаптер
+        BasketFragment.basketAdapter.addPizza(pizza);
+    }
+
 }

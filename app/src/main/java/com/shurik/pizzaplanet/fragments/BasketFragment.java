@@ -33,7 +33,7 @@ public class BasketFragment extends Fragment {
     LinearLayoutManager layoutManager;
 
     private PizzaDatabase database;
-    private PizzaDAO pizzaDao;
+    public static PizzaDAO pizzaDao;
 
     private List<Pizza> pizzaList = new ArrayList<>();
     private List<PizzaEntity> pizzaListAdapter = new ArrayList<>();
@@ -64,7 +64,22 @@ public class BasketFragment extends Fragment {
 
         // Получить доступ к Dao
         pizzaDao = database.pizzaDao();
+
+        // Получить все пиццы из базы данных и добавить их в адаптер
+        new Thread(() -> {
+            List<PizzaEntity> pizzaEntities = pizzaDao.getAllPizzas();
+            for (PizzaEntity pizzaEntity : pizzaEntities) {
+                Pizza pizza = new Pizza(
+                pizzaEntity.getTitle(),
+                pizzaEntity.getDesciption(),
+                pizzaEntity.getPic(),
+                pizzaEntity.getFee(),
+                pizzaEntity.getQuantity());
+                getActivity().runOnUiThread(() -> basketAdapter.addPizza(pizza));
+            }
+        }).start();
     }
+
 
     private class GetPizzasAsyncTask extends AsyncTask<Void, Void, List<PizzaEntity>> {
         private PizzaDAO pizzaDao;

@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void switchFragments(int menuItemId, CustomerFragment customerFragment, SupplierFragment supplierFragment, BasketFragment basketFragment, UserSettingsFragment userSettingsFragment, UserFragment userFragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-
         // Сначала скрываем все фрагменты
         transaction.hide(customerFragment);
         transaction.hide(supplierFragment);
@@ -100,10 +99,22 @@ public class MainActivity extends AppCompatActivity {
                 transaction.show(customerFragment);
                 break;
             case R.id.nav_supplier_fragment:
-                transaction.show(supplierFragment);
+                if (SupplierFragment.isSupplier) {
+                    transaction.show(supplierFragment);
+                } else {
+                    SecureAccess();
+                    // Выходим из метода, чтобы не продолжать отображение фрагмента
+                    return;
+                }
                 break;
             case R.id.nav_basket_fragment:
-                transaction.show(basketFragment);
+                if (BasketFragment.basketAdapter.getItemCount() > 0) {
+                    transaction.show(basketFragment);
+                } else {
+                    EmptyBasket();
+                    // Выходим из метода, чтобы не продолжать отображение фрагмента
+                    return;
+                }
                 break;
             case R.id.nav_user_settings_fragment:
                 transaction.show(userSettingsFragment);
@@ -141,20 +152,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void showPizzaDetailsDialog(Pizza pizza) {
+    private void SecureAccess() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.pizza_details);
+        dialog.setContentView(R.layout.secure_access);
 
-        TextView pizzaTitleDetails = dialog.findViewById(R.id.titleText);
-        ImageView pizzaPicDetails = dialog.findViewById(R.id.picFood);
-        TextView pizzaDescriptionDetails = dialog.findViewById(R.id.descriptionTxt);
-        TextView pizzaFeeDetails = dialog.findViewById(R.id.feeTxt);
-        ImageButton closeDetails = dialog.findViewById(R.id.crest);
+        ImageButton closeDetails = dialog.findViewById(R.id.close_button);
 
-        pizzaTitleDetails.setText(pizza.getTitle());
-        pizzaDescriptionDetails.setText(pizza.getDesciption());
-        pizzaFeeDetails.setText(pizza.getFee());
+        // удаление окошка
+        closeDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    private void EmptyBasket() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.empty_basket);
+
+        ImageButton closeDetails = dialog.findViewById(R.id.close_button);
 
         // удаление окошка
         closeDetails.setOnClickListener(new View.OnClickListener() {

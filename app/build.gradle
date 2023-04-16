@@ -78,4 +78,7 @@ dependencies {
 
     // For JsonProperty
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.12.1'
+
+    // CircleImageView
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

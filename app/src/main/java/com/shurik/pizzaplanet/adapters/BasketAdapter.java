@@ -1,10 +1,12 @@
 package com.shurik.pizzaplanet.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,6 +48,10 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
         Glide.with(holder.pizzaImage.getContext())
                 .load(pizza.getPic())
                 .into(holder.pizzaImage);
+
+        holder.itemView.setOnClickListener(v -> {
+            showPizzaDetailsDialog(pizza, holder);
+        });
     }
 
     @Override
@@ -148,6 +154,63 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
             pizzaEntity.setId(item.getId()); // Не забудьте присвоить Id пицце в Pizza.java и установить его при создании Pizza из PizzaEntity
             BasketFragment.pizzaDao.delete(pizzaEntity);
         }).start();
+    }
+
+    private void showPizzaDetailsDialog(Pizza pizza, BasketAdapter.BasketViewHolder holder) {
+        final Dialog dialog = new Dialog(holder.itemView.getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.pizza_details);
+
+        TextView pizzaTitleDetails = dialog.findViewById(R.id.titleText);
+        ImageView pizzaPicDetails = dialog.findViewById(R.id.picFood);
+        TextView pizzaDescriptionDetails = dialog.findViewById(R.id.descriptionTxt);
+        TextView pizzaFeeDetails = dialog.findViewById(R.id.feeTxt);
+        ImageButton closeDetails = dialog.findViewById(R.id.crest);
+        ImageView plus = dialog.findViewById(R.id.plus);
+        TextView qnt = dialog.findViewById(R.id.numberOrderTxt);
+        ImageView minus = dialog.requireViewById(R.id.minus);
+
+        pizzaTitleDetails.setText(holder.pizzaTitle.getText());
+        Glide.with(holder.itemView.getContext())
+                .load(pizza.getPic())
+                .into(pizzaPicDetails);
+        pizzaDescriptionDetails.setText(pizza.getDescription());
+        pizzaFeeDetails.setText(pizza.getFee());
+        qnt.setText(holder.quantity.getText());
+
+        // удаление окошка
+        closeDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int qty1 = Integer.parseInt(qnt.getText().toString());
+                qty1++;
+                qnt.setText(String.valueOf(qty1));
+                holder.quantity.setText(String.valueOf(qty1));
+                pizza.setQuantity(qty1);
+            }
+        });
+
+        minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int qty = Integer.parseInt(holder.quantity.getText().toString());
+                if (qty > 1) {
+                    qty--;
+                    qnt.setText(String.valueOf(qty));
+                    holder.quantity.setText(String.valueOf(qty));
+                    pizza.setQuantity(qty);
+                }
+            }
+        });
+
+        dialog.show();
     }
 
 }

@@ -49,7 +49,12 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         // Действие при нажатии на корзину
         holder.basketButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { BasketFragment.basketAdapter.addPizza(pizzaVenue); }
+            public void onClick(View v) { addItemToBasketAdapter(pizzaVenue); }
+        });
+
+        holder.basketImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { addItemToBasketAdapter(pizzaVenue); }
         });
 
         // Действие при нажатии на картинку
@@ -94,6 +99,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         public ImageView pizzaPic;
         public TextView pizzaTitle;
         public ImageButton basketButton;
+        public ImageView basketImage;
         public ImageView plus;
         public TextView quantity;
         public ImageView minus;
@@ -104,6 +110,7 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
             pizzaPic = itemView.findViewById(R.id.pic);
             pizzaTitle = itemView.findViewById(R.id.title);
             basketButton = itemView.findViewById(R.id.addBtn);
+            basketImage = itemView.findViewById(R.id.basketBtn);
             minus = itemView.findViewById(R.id.minus);
             quantity = itemView.findViewById(R.id.numberOrderTxt);
             plus = itemView.findViewById(R.id.plus);

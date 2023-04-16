@@ -8,6 +8,24 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 
 public class Pizza {
+    // id (номер)
+    int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDesciption() {
+        return desciption;
+    }
+
+    public void setDesciption(String desciption) {
+        this.desciption = desciption;
+    }
 
     // название пиццы
     private String title;
@@ -40,6 +58,15 @@ public class Pizza {
     }
 
     public Pizza(String title, String desciption, String pic, String fee, int quantity) {
+        this.title = title;
+        this.desciption = desciption;
+        this.pic = pic;
+        this.fee = fee;
+        this.quantity = quantity;
+    }
+
+    public Pizza(int id, String title, String desciption, String pic, String fee, int quantity) {
+        this.id = id;
         this.title = title;
         this.desciption = desciption;
         this.pic = pic;

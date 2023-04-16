@@ -124,16 +124,6 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
                     break;
 
                 case R.id.close:
-                    // Удалить PizzaEntity из базы данных
-                    new Thread(() -> {
-                        PizzaEntity pizzaToDelete = new PizzaEntity();
-                        pizzaToDelete.setDesciption(item.getDescription());
-                        pizzaToDelete.setPic(item.getPic());
-                        pizzaToDelete.setFee(item.getFee());
-                        pizzaToDelete.setQuantity(item.getQuantity());
-                        BasketFragment.pizzaDao.delete(pizzaToDelete);
-                    }).start();
-
                     removePizza(getAdapterPosition());
                     break;
 
@@ -147,7 +137,17 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
     }
 
     public void removePizza(int position) {
+        // Удалить пиццу из списка и адаптера
+        Pizza item = pizzaList.get(position);
         pizzaList.remove(position);
         notifyItemRemoved(position);
+
+        // Удалить пиццу из локальной базы данных
+        new Thread(() -> {
+            PizzaEntity pizzaEntity = new PizzaEntity();
+            pizzaEntity.setId(item.getId()); // Не забудьте присвоить Id пицце в Pizza.java и установить его при создании Pizza из PizzaEntity
+            BasketFragment.pizzaDao.delete(pizzaEntity);
+        }).start();
     }
+
 }

@@ -70,6 +70,7 @@ public class BasketFragment extends Fragment {
             List<PizzaEntity> pizzaEntities = pizzaDao.getAllPizzas();
             for (PizzaEntity pizzaEntity : pizzaEntities) {
                 Pizza pizza = new Pizza(
+                pizzaEntity.getId(),
                 pizzaEntity.getTitle(),
                 pizzaEntity.getDesciption(),
                 pizzaEntity.getPic(),

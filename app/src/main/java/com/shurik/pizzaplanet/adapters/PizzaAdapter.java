@@ -61,17 +61,13 @@ public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.ViewHolder> 
         });
 
         // Изменение счетчика
-//        holder.plus.setOnClickListener(new View.OnClickListener() {
-//          @Override
-//          public void onClick(View v) {
-//            int qty1 = Integer.parseInt(holder.quantity.getText().toString());
-//            qty1++;
-//            holder.quantity.setText(String.valueOf(qty1));
-//          }
-//      });
-
-        holder.plus.setOnClickListener(v -> {
-            addItemToBasketAdapter(pizzaVenue);
+        holder.plus.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            int qty1 = Integer.parseInt(holder.quantity.getText().toString());
+            qty1++;
+            holder.quantity.setText(String.valueOf(qty1));
+          }
         });
 
         holder.minus.setOnClickListener(new View.OnClickListener() {
